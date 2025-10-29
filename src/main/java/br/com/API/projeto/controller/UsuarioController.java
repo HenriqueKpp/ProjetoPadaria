@@ -1,14 +1,19 @@
 package br.com.API.projeto.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.API.projeto.repository.IUsuario;
 import br.com.API.projeto.model.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 //classe de ending point
@@ -31,7 +36,7 @@ public class UsuarioController  {
 
 //CRUD - UPLOAD - POST - CREATE USER
     @PostMapping
-    public ResponseEntity <Usuario> CriarUsuario(@RequestBody Usuario usuarioNovoInfos){
+    public ResponseEntity <Usuario> CriarUsuario(@Valid @RequestBody Usuario usuarioNovoInfos){
         String encoder = this.passwordEncoder.encode(usuarioNovoInfos.getSenha());
         usuarioNovoInfos.setSenha(encoder);
         Usuario usuarioNovo = dao.save(usuarioNovoInfos);
@@ -39,7 +44,7 @@ public class UsuarioController  {
     }
 //CRUD - UPDATE
     @PutMapping
-    public ResponseEntity <Usuario>  AtualizarUsuario(@RequestBody Usuario usuarioAtualizadoInfos){
+    public ResponseEntity <Usuario>  AtualizarUsuario(@Valid @RequestBody Usuario usuarioAtualizadoInfos){
         String encoder = this.passwordEncoder.encode(usuarioAtualizadoInfos.getSenha());
         usuarioAtualizadoInfos.setSenha(encoder);
         Usuario usuarioAtualizado = dao.save(usuarioAtualizadoInfos);
@@ -52,16 +57,35 @@ public class UsuarioController  {
         return ResponseEntity.status(204).build();
     }
 
+
+
     @PostMapping("/login")
-    public ResponseEntity<Usuario> validarSenha(@RequestBody Usuario usuario){
-    String senha  = dao.getById(usuario.getID()).getSenha();
-    Boolean valid = passwordEncoder.matches(usuario.getSenha(),senha);
-    if(!valid){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //INAUTORIZADO
-    }
-    else return ResponseEntity.status(200).build(); //AUTORIZADO/ SENHA CERTA
+    public ResponseEntity<Usuario> validarSenha(@Valid @RequestBody Usuario usuario) {
+        Usuario usuarioBanco = dao.findByCpf(usuario.getCpf());
+        if (usuarioBanco == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        boolean valid = passwordEncoder.matches(usuario.getSenha(), usuarioBanco.getSenha());
+        if (!valid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioBanco);
     }
 
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExeption(MethodArgumentNotValidException Ex){
+        Map<String, String> errors = new HashMap<>();
+
+        Ex.getBindingResult().getAllErrors().forEach((error)->{
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName,errorMessage);
+        });
+        return errors;
+    }
 
 
 }
