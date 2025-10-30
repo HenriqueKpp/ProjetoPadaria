@@ -41,7 +41,7 @@ if (formularioLogin) {
     const IcpfLogin = formularioLogin.querySelector(".cpf");
     const IsenhaLogin = formularioLogin.querySelector(".senha");
 
-    formularioLogin.addEventListener('submit', function(event){
+    formularioLogin.addEventListener('submit', function(event) {
         event.preventDefault();
 
         fetch("http://localhost:8080/usuarios/login", {
@@ -55,14 +55,29 @@ if (formularioLogin) {
                 senha: IsenhaLogin.value
             })
         })
-            .then(res => {
-                console.log("Login status:", res.status);
-                return res.json().catch(() => {});
-            })
-            .then(data => console.log("Resposta:", data))
-            .catch(err => console.error("Erro de rede:", err));
 
-        IcpfLogin.value = "";
-        IsenhaLogin.value = "";
-    });
+            .then(res => { //LOGIN VALIDO
+                if (res.status === 200) {
+                    return res.json();
+
+                } else if (res.status === 401) {   //LOGIN INVALIDO
+                    alert("CPF ou senha incorretos!");  //AVISO DE ERRO
+
+                } else {
+                    alert("Erro ao tentar fazer login. Código: " + res.status); //AVISO DE ERRO
+                }
+            })
+            .catch(error => {
+                console.error("Erro na requisição:", error);
+                alert("Erro ao conectar ao servidor!"); //AVISO DE ERRO
+            })
+
+             .then(usuario => {
+            localStorage.setItem("nomeUsuario", usuario.nome);  //PEGA O NOME E GUARDA NO STORAGE
+                window.location.href = "dashboard.html";
+               })
+                 .catch(error => {
+                console.error("Erro:", error);
+                  });
+    })
 }
