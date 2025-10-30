@@ -110,3 +110,61 @@ Mais informações sobre a avaliação:
 
 - A nota final poderá ser penalizada em 50% com a ausência de algum item do trabalho.
 - Mais informações poderão ser adicionadas aqui, também serão anunciadas em sala.
+
+
+### Scripts
+
+```sql
+
+CREATE DATABASE IF NOT EXISTS FinanceiroPadaria;
+USE FinanceiroPadaria;
+
+-- Criação das Tabelas
+
+CREATE TABLE usuario (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    telefone VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE grupo_usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_grupo VARCHAR(100) NOT NULL,           -- 'gerente','vendedor'
+    nivel_permissao INT NOT NULL DEFAULT 1      -- 1,2,3
+);
+
+-- PRODUTO
+CREATE TABLE Produto (
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    nome VARCHAR(150) NOT NULL,
+    preco_custo DECIMAL(10,2),
+    preco_venda DECIMAL(10,2),
+    qntd_estoque INT
+);
+
+
+-- PEDIDO
+CREATE TABLE Pedido (
+    pedido_id INT PRIMARY KEY AUTO_INCREMENT,
+    valor DECIMAL(12,2),
+    data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
+    forma_pagamento varchar(255),
+    cpf_cliente INT(11)
+    
+);
+
+
+-- PEDIDO_ITEM (ASSOCIATIVA = PRODUTO X PEDIDO)
+CREATE TABLE Pedido_Item (
+    pedido_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    pedido_id INT NOT NULL,
+    produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10,2),
+    subtotal DECIMAL(12,2),
+    CONSTRAINT fk_item_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
+    CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(produto_id)
+);
+```

@@ -21,7 +21,7 @@ public class Usuario {
     private int ID;
 
     @Size(min = 3, max = 255 , message = "O nome deve ter entre 3 e 255 caracteres!")
-    //@NotBlank(message = "O nome é obrigatório!") //NAO PERMITE SO ESPAÇOS EM BRANCO
+   // @NotBlank(message = "O nome é obrigatório!") //NAO PERMITE SO ESPAÇOS EM BRANCO
     @Column(name = "nome", length = 255, nullable = false) // tamanho e not null
     private String nome;
 
