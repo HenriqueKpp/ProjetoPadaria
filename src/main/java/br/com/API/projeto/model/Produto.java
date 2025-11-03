@@ -1,9 +1,6 @@
 package br.com.API.projeto.model;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
@@ -27,17 +24,18 @@ public class Produto {
     private String nome;
 
 
-    @NotBlank(message = "O preço-custo é obrigatório!")
+    @NotNull(message = "O preço-custo é obrigatório!")
     @Column(name = "preco_custo", nullable = false) // tamanho e not null
     private float preco_custo;
 
 
-    @NotBlank(message = "O preço de venda é obrigatório!")
+    @NotNull(message = "O preço de venda é obrigatório!")
     @Column(name = "preco_venda", nullable = false) // tamanho e not null
     private float preco_venda;
 
 
-    @NotBlank(message = "A quantidade de estoque é obrigatória!")
+    @NotNull(message = "A quantidade de estoque é obrigatória!")
+    @Min(value = 0, message = "A quantidade não pode ser negativa!")
     @Column(name = "qntd_estoque", nullable = false) // tamanho e not null
     private int qntd_estoque;
 
