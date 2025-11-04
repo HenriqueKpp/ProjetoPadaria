@@ -152,7 +152,6 @@ CREATE TABLE Pedido (
     data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     forma_pagamento varchar(255),
     cpf_cliente INT(11)
-    
 );
 
 
@@ -165,6 +164,6 @@ CREATE TABLE Pedido_Item (
     preco_unitario DECIMAL(10,2),
     subtotal DECIMAL(12,2),
     CONSTRAINT fk_item_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
-    CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(produto_id)
+    CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
 ```
