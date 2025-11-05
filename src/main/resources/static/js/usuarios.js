@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const corpoTabela = document.querySelector("#tabelaUsuarios");
 
-    fetch("/usuarios")
+    fetch("http://localhost:8080/usuarios")
         .then(res => {
             if (!res.ok) {
                 throw new Error("Erro ao carregar usuários");
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const corpoTabela = document.querySelector("#tabelaProdutos");
 
-    fetch("/produtos")
+    fetch("http://localhost:8080/produtos")
         .then(res => {
             if (!res.ok) {
                 throw new Error("Erro ao carregar produtos");
@@ -74,7 +74,7 @@ if (formularioProdutos) {
     formularioProdutos.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        fetch("/produtos", {
+        fetch("http://localhost:8080/produtos", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ if (formularioDelProdutos) {
         event.preventDefault();
         const id = Iid.value;
 
-        fetch(`/produtos/${id}`, {
+        fetch(`http://localhost:8080/produtos/${id}`, {
             method: 'DELETE'
         })
             .then(res => {
