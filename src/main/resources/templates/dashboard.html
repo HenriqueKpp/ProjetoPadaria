@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pt-BR" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main_layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+
+<div class="container" layout:fragment="content">
+    <!-- CODIGO PRA APARECER O NOME DO USUARIO -->
+    <h2 id="boasVindas"></h2>
+    <script>
+        const nome = localStorage.getItem("nomeUsuario");
+        if (nome) {
+            document.querySelector("#boasVindas").textContent = `Bem-vindo, ${nome}! `;
+        }
+    </script>
+
+</div>
+
+
+<script src="/js/script.js" defer></script>
+</body>
+
+</html>

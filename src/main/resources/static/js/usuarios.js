@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const corpoTabela = document.querySelector("#tabelaUsuarios");
 
-    fetch("http://localhost:8080/usuarios")
+    fetch("/usuarios")
         .then(res => {
             if (!res.ok) {
                 throw new Error("Erro ao carregar usuários");
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const corpoTabela = document.querySelector("#tabelaProdutos");
 
-    fetch("http://localhost:8080/produtos")
+    fetch("/produtos")
         .then(res => {
             if (!res.ok) {
                 throw new Error("Erro ao carregar produtos");
@@ -48,8 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 linha.innerHTML = `
           <td>${produto.id}</td>
           <td>${produto.nome}</td>
-          <td>${produto.preco_venda} R$ </td>
-          <td>${produto.qntd_estoque} uni.</td>
+          <td>${produto.precoVenda} R$ </td>
+          <td>${produto.qntdEstoque} uni.</td>
         `;
 
                 corpoTabela.appendChild(linha);
@@ -74,7 +74,7 @@ if (formularioProdutos) {
     formularioProdutos.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        fetch("http://localhost:8080/produtos", {
+        fetch("/produtos", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -82,9 +82,9 @@ if (formularioProdutos) {
             method: 'POST',
             body: JSON.stringify({
                 nome: Inomeproduto.value,
-                preco_custo: Icusto.value,
-                preco_venda: Ivenda.value,
-                qntd_estoque: Iestoque.value
+                precoCusto: Icusto.value,
+                precoVenda: Ivenda.value,
+                qntdEstoque: Iestoque.value
             })
         })
             .then(res => console.log("Adicionar produtos status:", res.status))
@@ -109,7 +109,7 @@ if (formularioDelProdutos) {
         event.preventDefault();
         const id = Iid.value;
 
-        fetch(`http://localhost:8080/produtos/${id}`, {
+        fetch(`/produtos/${id}`, {
             method: 'DELETE'
         })
             .then(res => {

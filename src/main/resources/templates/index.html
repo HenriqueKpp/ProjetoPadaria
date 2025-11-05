@@ -1,0 +1,42 @@
+<!doctype html>
+<html class="no-js" lang="pt-BR" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main_layout}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h3 class="mt-5">CADASTRO</h3>
+
+    <div id="box">
+        <form action="" id="cadastro">
+            <input type="text" class="nome" name="nome" id="nome" placeholder="Nome">
+            <input type="text" class="cpf" name="cpf" id="cpf" placeholder="CPF">
+            <input type="text" class="senha" name="senha" id="senha" placeholder="Senha">
+            <input type="text" class="tel" name="tel" id="tel" placeholder="Telefone">
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <h3 class="mt-5">LOGIN</h3>
+
+    <div id="boxx">
+        <form action="" id="login">
+            <input type="text" class="cpf" name="cpf" id="cpff" placeholder="CPF">
+            <input type="text" class="senha" name="senha" id="senhas" placeholder="Senha">
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+
+</html>
