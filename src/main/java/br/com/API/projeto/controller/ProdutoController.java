@@ -32,6 +32,16 @@ public class ProdutoController{
         return ResponseEntity.status(201).body(produtoNovo);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluirProduto(@PathVariable Integer id) {
+        if (dao.existsById(id)) {
+            dao.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 

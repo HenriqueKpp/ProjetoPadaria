@@ -9,10 +9,10 @@ if (formularioCadastro) {
     const Isenha = formularioCadastro.querySelector(".senha");
     const Itel = formularioCadastro.querySelector(".tel");
 
-    formularioCadastro.addEventListener('submit', function(event){
+    formularioCadastro.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        fetch("http://localhost:8080/usuarios", {
+        fetch("/usuarios", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -25,14 +25,24 @@ if (formularioCadastro) {
                 telefone: Itel.value
             })
         })
-            .then(res => console.log("Cadastro status:", res.status))
-            .catch(err => console.error(err));
+            .then(res => {
+                console.log("Cadastro status:", res.status);
 
-        // limpar apenas os campos do formulário de cadastro
-        Inome.value = "";
-        Icpf.value = "";
-        Isenha.value = "";
-        Itel.value = "";
+                if (res.status === 201) {
+                    alert("Usuário cadastrado com sucesso!");
+                } else {
+                    alert("Erro ao cadastrar usuário. Verifique os dados.");
+                }
+                // limpar os campos do formulário
+                Inome.value = "";
+                Icpf.value = "";
+                Isenha.value = "";
+                Itel.value = "";
+            })
+            .catch(err => {
+                console.error(err);
+                alert(" Erro ao conectar com o servidor.");
+            });
     });
 }
 
@@ -44,7 +54,7 @@ if (formularioLogin) {
     formularioLogin.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        fetch("http://localhost:8080/usuarios/login", {
+        fetch("/usuarios/login", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
