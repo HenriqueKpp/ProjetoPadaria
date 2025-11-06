@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/pedidos.js" defer></script>
+
+</head>
+<body>
+
+<h1>Registrar Pedido</h1>
+
+<form id="form-pedido">
+    <label>CPF do Funcionário:</label><br>
+    <input type="text" id="funcionario_id" maxlength="11" required><br><br>
+
+    <label>CPF do Cliente:</label><br>
+    <input type="text" id="cpf_cliente" maxlength="11"><br><br>
+
+    <label>Forma de Pagamento:</label><br>
+    <select id="forma_pagamento" required>
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Cartão de Crédito">Cartão de Crédito</option>
+        <option value="Cartão de Débito">Cartão de Débito</option>
+        <option value="Pix">Pix</option>
+    </select>
+    <br><br>
+
+    <h1>Produtos</h1>
+    <div id="produtos-container">
+        <div class="produto-item">
+            <label>ID do Produto:</label>
+            <input type="number" class="produto-id" required>
+            <label>Quantidade:</label>
+            <input type="number" class="produto-qtd" min="1" required>
+            <button type="button" class="remover-produto">Remover</button>
+        </div>
+    </div>
+
+    <button type="button" id="adicionar-produto">+ Adicionar outro produto</button>
+    <br><br>
+
+    <button type="submit">Finalizar Pedido</button>
+</form>
+
+
+
+
+
+</body>
+</html>

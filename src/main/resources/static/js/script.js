@@ -12,7 +12,7 @@ if (formularioCadastro) {
     formularioCadastro.addEventListener('submit', function(event){
         event.preventDefault();
 
-        fetch("/usuarios", {
+        fetch("http://localhost:8080/usuarios", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ if (formularioLogin) {
     formularioLogin.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        fetch("/usuarios/login", {
+        fetch("http://localhost:8080/usuarios/login", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
