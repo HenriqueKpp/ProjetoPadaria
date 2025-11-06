@@ -2,6 +2,9 @@ const formPedido = document.querySelector("#form-pedido");
 const container = document.querySelector("#produtos-container");
 const btnAddProduto = document.querySelector("#adicionar-produto");
 
+
+
+
 // Adicionar novo campo de produto
 btnAddProduto.addEventListener("click", () => {
     const div = document.createElement("div");
@@ -17,6 +20,11 @@ btnAddProduto.addEventListener("click", () => {
 
     div.querySelector(".remover-produto").addEventListener("click", () => div.remove());
 });
+
+
+
+
+
 
 // Enviar pedido
 formPedido.document.addEventListener("DOMContentLoaded", () => {

@@ -166,4 +166,25 @@ CREATE TABLE Pedido_Item (
     CONSTRAINT fk_item_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
     CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
+
+
+INSERT INTO Produto (nome, preco_custo, preco_venda, qntd_estoque)
+VALUES
+('Pão Francês', 0.20, 0.80, 500),
+('Bolo de Chocolate', 10.00, 25.00, 15),
+('Coxinha', 1.50, 4.00, 80),
+('Suco Natural 300ml', 2.00, 6.00, 30),
+('Torta de Frango', 8.00, 20.00, 10);
+
+
+INSERT INTO usuario (nome, cpf, senha, telefone)
+VALUES
+('Maria Silva', '12345678901', 'senha123', '(11) 98888-1111'),
+('João Souza', '98765432100', 'senha456', '(11) 97777-2222'),
+('Ana Lima', '55566677788', 'senha789', '(11) 96666-3333');
+
+
+
+
+
 ```
