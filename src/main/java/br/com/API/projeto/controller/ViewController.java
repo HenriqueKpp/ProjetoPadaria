@@ -20,4 +20,19 @@ public class ViewController {
     public String produtos() {
         return "produtos";
     }
+
+    @GetMapping("/pedidos-page") // Usando um caminho diferente para não conflitar com a API
+    public String pedidos() {
+        return "pedidos";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/cadastro")
+    public String cadastro() {
+        return "cadastro";
+    }
 }

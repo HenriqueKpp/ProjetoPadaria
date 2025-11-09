@@ -1,0 +1,67 @@
+.btn {
+    background-color: #991936;
+    color: white;
+}
+
+.btn:hover, .btn:focus, .btn:active {
+    background-color: #6E1126;
+    color: #FFFFFF;
+}
+
+.background-form {
+    background-color: #991936;
+}
+
+/* Aumenta largura e espaçamento do card/form */
+.card {
+    max-width: 920px;
+    margin: 0 auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.card .card-body {
+    padding: 2.5rem;
+}
+
+/* Inputs e botões maiores para melhor usabilidade */
+.form-control {
+    font-size: 1rem;
+    padding: .75rem .9rem;
+    border-radius: .5rem;
+}
+
+.btn {
+    padding: .6rem 1.25rem;
+    border-radius: .5rem;
+    font-size: 1rem;
+}
+
+/* Ajusta o box de cadastro no topo (se presente) */
+#box {
+    max-width: 920px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+}
+
+/* Faz a seção principal ocupar a altura restante do viewport
+   (mesma técnica usada em banner-principal da index) */
+section.h-100 {
+    min-height: calc(100vh - var(--nav-height));
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Garante que a metade com background preencha verticalmente */
+.col-lg-6.d-flex.align-items-center.background-form {
+    min-height: 100%;
+    padding: 2rem;
+    background-color: var(--btn-bg);
+}
+
+/* Pequenos ajustes responsivos */
+@media (max-width: 768px) {
+    .card .card-body { padding: 1.25rem; }
+    .form-control { font-size: .98rem; }
+    .card { margin-left: .5rem; margin-right: .5rem; }
+}

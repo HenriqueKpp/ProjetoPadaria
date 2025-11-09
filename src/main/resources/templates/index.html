@@ -5,35 +5,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/script.js" defer></script>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="/assets/js/script.js" defer></script>
 </head>
 
 <body>
 
 <div layout:fragment="content">
-
-    <h3 class="mt-5">CADASTRO</h3>
-
-    <div id="box">
-        <form action="" id="cadastro">
-            <input type="text" class="nome" name="nome" id="nome" placeholder="Nome">
-            <input type="text" class="cpf" name="cpf" id="cpf" placeholder="CPF">
-            <input type="text" class="senha" name="senha" id="senha" placeholder="Senha">
-            <input type="text" class="tel" name="tel" id="tel" placeholder="Telefone">
-            <button type="submit">Cadastrar</button>
-        </form>
-    </div>
-
-    <h3 class="mt-5">LOGIN</h3>
-
-    <div id="boxx">
-        <form action="" id="login">
-            <input type="text" class="cpf" name="cpf" id="cpff" placeholder="CPF">
-            <input type="text" class="senha" name="senha" id="senhas" placeholder="Senha">
-            <button type="submit">Entrar</button>
-        </form>
-    </div>
+    <section class="banner-principal d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h1 data-aos="fade-up" class="aos-init aos-animate">
+                        Prove o nosso pão recém-saído do forno
+                    </h1>
+                    <h2 data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">
+                        Assados diários com ingredientes naturais. Peça agora e receba em casa.
+                    </h2>
+                    <div data-aos="fade-up" data-aos-delay="600" class="aos-init aos-animate">
+                        <div class="text-center text-lg-start">
+                            <a href="https://www.whatsapp.com" target="_blank" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Fale conosco</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 hero-img aos-init aos-animate" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="/assets/img/logo-vermelha.svg" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
 
 </div>
 

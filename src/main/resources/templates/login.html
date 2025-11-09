@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="pt-BR" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main_layout}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <title>Login</title>
+    <script src="/assets/js/script.js" defer></script>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <section class="h-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-10">
+                    <div class="card rounded-3 text-black">
+                        <div class="row g-0">
+                            <div class="col-lg-6">
+                                <div class="card-body p-md-5 mx-md-4">
+
+                                    <div class="text-center">
+                                        <h4 class="mb-5">Login</h4>
+                                    </div>
+
+                                    <form class="mt-4" id="login">
+                                        <p>Faça login na sua conta!</p>
+
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <input type="text" class="cpf form-control" name="cpf" id="cpff">
+                                            <label class="form-label" for="cpf">CPF (somente números)</label>
+                                        </div>
+
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <input type="text" class="senha form-control" name="senha" id="senhas">
+                                            <label class="senha form-label" for="senha">Senha</label>
+                                        </div>
+
+                                        <div class="text-center pt-1 mb-5 pb-1">
+                                            <button class="btn mb-3 px-5 py-2" type="submit">Entrar</button>
+                                        </div>
+
+                                        <div class="d-flex align-items-center justify-content-center pb-4">
+                                            <p class="mb-0 me-2">Não possui uma conta?</p>
+                                            <a href="/cadastro" class="btn px-2 py-2">Crie uma</a>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-flex align-items-center background-form">
+                                <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                                    <img class="d-block mx-auto mb-5" src="/assets/img/logo-branca.svg"
+                                         style="width: 120px;" alt="logo">
+                                    <h4 class="mb-4">Padaria</h4>
+                                    <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                                        do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                        quis nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+
+</html>

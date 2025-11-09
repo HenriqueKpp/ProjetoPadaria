@@ -25,8 +25,14 @@ if (formularioCadastro) {
                 telefone: Itel.value
             })
         })
-            .then(res => console.log("Cadastro status:", res.status))
-            .catch(err => console.error(err));
+            .then(res => {
+                if (res.status === 201)
+                    alert("Usuário cadastrado com sucesso!", res.status)
+                else {
+                    alert("Erro ao cadastrar usuário!", res.status)
+                }
+            })
+            .catch(err => alert(err + " - Erro ao cadastrar usuário!" + res.status));
 
         // limpar apenas os campos do formulário de cadastro
         Inome.value = "";
