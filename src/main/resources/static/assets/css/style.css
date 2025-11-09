@@ -1,9 +1,8 @@
-
 /* =========================
    Variáveis de tema
    ========================= */
 :root {
-  --nav-height: 56px; /* valor padrão (mobile) */
+  --nav-height: 56px;
   --nav-bg: #991936;
   --nav-text: #ffffff;
   --nav-hover: #bdbdbd;
@@ -20,7 +19,7 @@
 }
 
 /* =========================
-   Base / Normalização (H5BP)
+   Reset / Base
    ========================= */
 html {
   color: #222;
@@ -29,42 +28,45 @@ html {
   font-family: var(--font-family);
 }
 
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   padding-top: var(--nav-height);
   margin: 0;
-
-  background: url('/assets/img/background.png') center fixed repeat;
+  background: url('../img/background.png') center fixed repeat;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.main-content { flex: 1; }
-
-::-moz-selection { background: #b3d4fc; text-shadow: none; }
-::selection       { background: #b3d4fc; text-shadow: none; }
+a { text-decoration: none; color: inherit; }
 
 audio, canvas, iframe, img, svg, video { vertical-align: middle; }
-fieldset { border: 0; margin: 0; padding: 0; }
+fieldset, textarea { border: 0; margin: 0; padding: 0; }
 textarea { resize: vertical; }
 
 hr {
-  display: block;
   height: 1px;
   border: 0;
   border-top: 1px solid #ccc;
   margin: 1em 0;
-  padding: 0;
 }
 
+/* selection */
+::-moz-selection { background: #b3d4fc; text-shadow: none; }
+::selection       { background: #b3d4fc; text-shadow: none; }
+
 /* =========================
-   Navbar / Layout principal
+   Layout / Navbar
    ========================= */
-/* navbar fixa e responsiva */
 nav.navbar,
 .navbar {
   position: fixed;
-  inset: 0 0 auto 0; /* top:0; left:0; right:0; */
+  inset: 0 0 auto 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,18 +74,15 @@ nav.navbar,
   z-index: 1000;
   height: var(--nav-height);
   padding: 0.5rem 1rem;
-  background: var(--nav-bg) !important;
   gap: 1rem;
-  box-sizing: border-box;
+  background: var(--nav-bg) !important;
 }
 
-/* Marca, links e comportamento compartilhado */
 .navbar .navbar-brand,
 .navbar .nav-link,
 nav a {
   color: var(--nav-text) !important;
   font-weight: 400;
-  text-decoration: none;
   transition: var(--transition-fast);
   -webkit-tap-highlight-color: transparent;
 }
@@ -92,11 +91,10 @@ nav a {
 nav a:hover,
 .navbar .nav-link:focus,
 nav a:focus {
-  color: var(--nav-hover)!important;
+  color: var(--nav-hover) !important;
   outline: none;
 }
 
-/* agrupamento de itens */
 .navbar .nav-item,
 .nav-list li {
   margin-left: 1rem;
@@ -114,29 +112,55 @@ nav a:focus {
   cursor: pointer;
 }
 
-.nav-button:hover,
-.btn:hover {
-  color: var(--nav-hover)!important;
+.nav-button:active,
+.btn:active { transform: translateY(1px); }
+
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  color: var(--nav-text);
 }
 
-.nav-button:active,
-.btn:active {
-  transform: translateY(1px);
+.navbar-toggler-icon {
+  background-image: none !important;
+  width: 24px;
+  height: 18px;
+  display: inline-block;
+  position: relative;
 }
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after,
+.navbar-toggler-icon span {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+.navbar-toggler-icon::before { top: 0; }
+.navbar-toggler-icon span { top: 8px; }
+.navbar-toggler-icon::after  { bottom: 0; }
+
+.navbar-collapse {
+  background: var(--nav-bg);
+  z-index: 1100;
+}
+.navbar-collapse .nav-link,
+.navbar-collapse a { color: var(--nav-text) !important; }
 
 /* =========================
-   Componentes: Banner, Container, Footer
+   Componentes: Banner / Hero / Footer
    ========================= */
 .section { padding: 60px 0; }
 
 .banner-principal {
   width: 100%;
   min-height: calc(100vh - var(--nav-height));
-  height: auto;
   display: flex;
   align-items: center;
   padding: 2.5rem 0;
-  box-sizing: border-box;
 }
 
 .banner-principal h1 {
@@ -148,32 +172,37 @@ nav a:focus {
 }
 
 .banner-principal h2 {
-  color: black;
   margin: 15px 0 0 0;
   font-size: clamp(1rem, 3.2vw, 1.5rem);
+  color: #000;
 }
 
 .banner-principal .btn-get-started {
-  text-decoration: none;
+  display: inline-block;
   margin-top: 30px;
-  line-height: 0;
   padding: 25px 50px;
   border-radius: 10px;
-  transition: 0.5s;
+  transition: .5s;
   color: var(--btn-text);
   background: var(--btn-bg);
-  display: inline-block;
 }
 
 .banner-principal .btn-get-started span {
-  text-decoration: none;
   font-family: "Nunito", sans-serif;
   font-weight: 600;
   font-size: 16px;
   letter-spacing: 1px;
 }
 
-/* Containers / Grid simples */
+/* Footer */
+.footer {
+  background-color: var(--nav-bg) !important;
+  color: var(--nav-text) !important;
+}
+
+/* =========================
+   Grid / Containers / Helpers
+   ========================= */
 .container {
   max-width: 1140px;
   width: 100%;
@@ -181,7 +210,6 @@ nav a:focus {
   padding-right: 1rem;
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box;
 }
 
 .row {
@@ -190,37 +218,18 @@ nav a:focus {
   margin-top: calc(-1 * var(--bs-gutter-y));
   margin-right: calc(-.5 * var(--bs-gutter-x));
   margin-left: calc(-.5 * var(--bs-gutter-x));
-  box-sizing: border-box;
 }
 
-/* Hero image */
-.hero-img,
-.hero-img img {
+/* Images */
+img.img-fluid, .hero-img img, .navbar-brand img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 .hero-img { text-align: center; padding-top: 1rem; }
 
-/* Footer */
-.footer {
-  background-color: var(--nav-bg) !important;
-  color: var(--nav-text) !important;
-  padding: 0;
-}
-
-/* Imagens fluidas */
-img.img-fluid, .hero-img img, .navbar-brand img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* =========================
-   Helpers / Utilitários
-   ========================= */
-.hidden,
-[hidden] { display: none !important; }
+/* Utilities */
+.hidden, [hidden] { display: none !important; }
 
 .visually-hidden {
   border: 0;
@@ -233,16 +242,9 @@ img.img-fluid, .hero-img img, .navbar-brand img {
   white-space: nowrap;
   width: 1px;
 }
-
 .visually-hidden.focusable:active,
 .visually-hidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  white-space: inherit;
-  width: auto;
+  clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; white-space: inherit;
 }
 
 .invisible { visibility: hidden; }
@@ -251,15 +253,13 @@ img.img-fluid, .hero-img img, .navbar-brand img {
 .clearfix::after { content: ""; display: table; }
 .clearfix::after { clear: both; }
 
-/* espaçamento utilitário simples */
+/* espaçamento utilitário */
 .u-mr-sm { margin-right: .5rem; }
 .u-ml-md { margin-left: 1rem; }
 
 /* =========================
-   Ajustes responsivos / Media queries
+   Media queries
    ========================= */
-
-/* Ajustes para telas médias e grandes */
 @media (min-width: 768px) {
   :root { --nav-height: 64px; }
   .banner-principal { padding: 3.5rem 0; }
@@ -271,7 +271,6 @@ img.img-fluid, .hero-img img, .navbar-brand img {
   .banner-principal h1 { font-size: clamp(2rem, 4vw, 3rem); }
 }
 
-/* pequenos ajustes para mobile */
 @media (max-width: 576px) {
   body { background-attachment: scroll; }
   .banner-principal { padding: 1.5rem 0; }
