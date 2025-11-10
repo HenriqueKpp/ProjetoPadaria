@@ -35,4 +35,11 @@ public class ViewController {
     public String cadastro() {
         return "cadastro";
     }
+
+
+    @GetMapping("/usuarios")
+    public String usuarios() {
+        return "usuarios";
+    }
+
 }

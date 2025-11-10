@@ -28,7 +28,7 @@ public class UsuarioController  {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 //CRUD - REQUEST - SOLICITA AS INFOS
-    @GetMapping
+    @GetMapping("/info")
     public ResponseEntity <List <Usuario>> listaUsuario (){
       List <Usuario> lista =  dao.findAll();
         return ResponseEntity.status(200).body(lista);
@@ -52,11 +52,14 @@ public class UsuarioController  {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?>excluirUsuario (@PathVariable Integer id){
-        dao.deleteById(id);
-        return ResponseEntity.status(204).build();
+    public ResponseEntity<?> excluirUsuario(@PathVariable Integer id) {
+        if (dao.existsById(id)) {
+            dao.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-
 
 
     @PostMapping("/login")
