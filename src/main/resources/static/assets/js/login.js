@@ -1,48 +1,54 @@
-// selecionar os formulários (pode retornar null)
-const formularioLogin = document.querySelector("#login");
+document.addEventListener('DOMContentLoaded', function() {
+    // Se o usuário já está "lembrado", redireciona para o dashboard
+    if (localStorage.getItem("lembrar") === "true" && localStorage.getItem("nomeUsuario")) {
+        window.location.href = "/dashboard";
+        return; // Impede a execução do resto do script
+    }
 
-// LOGIN
-if (formularioLogin) {
-    const IcpfLogin = formularioLogin.querySelector(".cpf");
-    const IsenhaLogin = formularioLogin.querySelector(".senha");
+    const formularioLogin = document.querySelector("#login");
+    if (formularioLogin) {
+        const Icpf = formularioLogin.querySelector(".cpf");
+        const Isenha = formularioLogin.querySelector(".senha");
+        const Ilembrar = formularioLogin.querySelector("#lembrar");
 
-    formularioLogin.addEventListener('submit', function(event) {
-        event.preventDefault();
+        formularioLogin.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        fetch("http://localhost:8080/usuarios/login", {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                cpf: IcpfLogin.value,
-                senha: IsenhaLogin.value
+            fetch("http://localhost:8080/usuarios/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cpf: Icpf.value,
+                    senha: Isenha.value
+                })
             })
-        })
+                .then(res => {
+                    if (res.ok) { // Status 200-299
+                        return res.json();
+                    } else {
+                        throw new Error("CPF ou senha inválidos.");
+                    }
+                })
+                .then(usuario => {
+                    // Salva o nome do usuário para exibir no dashboard
+                    localStorage.setItem("nomeUsuario", usuario.nome);
 
-            .then(res => { //LOGIN VALIDO
-                if (res.status === 200) {
-                    return res.json();
+                    // Verifica se "Lembrar de mim" está marcado
+                    if (Ilembrar.checked) {
+                        localStorage.setItem("lembrar", "true");
+                    } else {
+                        localStorage.removeItem("lembrar");
+                    }
 
-                } else if (res.status === 401) {   //LOGIN INVALIDO
-                    alert("CPF ou senha incorretos!");  //AVISO DE ERRO
-
-                } else {
-                    alert("Erro ao tentar fazer login. Código: " + res.status); //AVISO DE ERRO
-                }
-            })
-            .catch(error => {
-                console.error("Erro na requisição:", error);
-                alert("Erro ao conectar ao servidor!"); //AVISO DE ERRO
-            })
-
-            .then(usuario => {
-                localStorage.setItem("nomeUsuario", usuario.nome);  //PEGA O NOME E GUARDA NO STORAGE
-                window.location.href = "/dashboard";
-            })
-            .catch(error => {
-                console.error("Erro:", error);
-            });
-    })
-}
+                    // Redireciona para o dashboard
+                    window.location.href = "/dashboard";
+                })
+                .catch(err => {
+                    console.error("Erro no login:", err);
+                    alert(err.message || "Ocorreu um erro ao tentar fazer login.");
+                });
+        });
+    }
+});

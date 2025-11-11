@@ -24,10 +24,18 @@ if (formularioCadastro) {
             })
         })
             .then(res => {
-                if (res.status === 201)
-                    alert("Usuário cadastrado com sucesso!", res.status)
-                else {
-                    alert("Erro ao cadastrar usuário!", res.status)
+                if (res.status === 201) {
+                    alert("Usuário cadastrado com sucesso!");
+                    // Salva o nome do usuário no localStorage
+                    localStorage.setItem("nomeUsuario", nomeUsuario);
+                    // Redireciona para o dashboard
+                    window.location.href = "/dashboard";
+                } else {
+                    res.json().then(data => {
+                        alert("Erro ao cadastrar usuário: " + (data.message || res.status));
+                    }).catch(() => {
+                        alert("Erro ao cadastrar usuário! Status: " + res.status);
+                    });
                 }
             })
             .catch(err => alert(err + " - Erro ao cadastrar usuário!" + res.status));

@@ -1,6 +1,7 @@
 //ESCREVE OS USUARIOS
 document.addEventListener("DOMContentLoaded", () => {
     const corpoTabela = document.querySelector("#tabelaUsuarios");
+    const loggedInUserName = localStorage.getItem('nomeUsuario'); // Pega o nome do usuário logado
 
     fetch("http://localhost:8080/usuarios/info")
         .then(res => {
@@ -13,17 +14,26 @@ document.addEventListener("DOMContentLoaded", () => {
             usuarios.forEach(usuario => {
                 const linha = document.createElement("tr");
 
+                // Verifica se o usuário da linha é o mesmo que está logado
+                const isCurrentUser = loggedInUserName && usuario.nome === loggedInUserName;
+
+                // O botão só é criado se não for o usuário atual
+                const deleteButtonHtml = !isCurrentUser
+                    ? `<button data-id="${usuario.id}" class="btn btn-delete">Excluir</button>`
+                    : ''; // Deixa a célula vazia se for o usuário logado
+
                 linha.innerHTML = `
-          <td>${usuario.id}</td>
-          <td>${usuario.nome}</td>
-          <td>${usuario.cpf}</td>
-          <td>${usuario.telefone}</td>
-          <td><button data-id="${usuario.id}" class="btn btn-delete">Excluir</button></td>
-        `;
+                  <td>${usuario.id}</td>
+                  <td>${usuario.nome}</td>
+                  <td>${usuario.cpf}</td>
+                  <td>${usuario.telefone}</td>
+                  <td>${deleteButtonHtml}</td>
+                `;
 
                 corpoTabela.appendChild(linha);
             });
-            // Adiciona event listeners para os botões de exclusão
+
+            // Adiciona event listeners apenas para os botões de exclusão que foram criados
             document.querySelectorAll('.btn-delete').forEach(button => {
                 button.addEventListener('click', function () {
                     const usuarioId = this.getAttribute('data-id');
@@ -54,37 +64,3 @@ document.addEventListener("DOMContentLoaded", () => {
             corpoTabela.innerHTML = `<tr><td colspan="5">Erro ao carregar usuários</td></tr>`;
         });
 });
-
-
-
-//DELETAR USUARIOS
-
-// FORMULÁRIO DE REMOVER PRODUTO
-const formularioDelUsuarios = document.querySelector("#usuarios_del");
-
-if (formularioDelUsuarios) {
-
-    const Iid = formularioDelUsuarios.querySelector(".id_usuario_del");
-    formularioDelUsuarios.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const id = Iid.value;
-
-        fetch(`http://localhost:8080/usuarios/${id}`, {
-            method: 'DELETE'
-        })
-            .then(res => {
-                console.log("Remover usuario status:", res.status);
-                if (res.status === 204) {
-                    alert("Usuario removido com sucesso!");
-                } else if (res.status === 404) {
-                    alert("Usuario não encontrado!");
-                } else {
-                    alert("Erro ao remover usuario.");
-                }
-            })
-            .catch(err => console.error(err));
-
-        Iid.value = "";
-    });
-}
