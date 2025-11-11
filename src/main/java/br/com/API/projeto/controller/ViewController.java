@@ -5,11 +5,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewController {
-
+    // Landing Page
     @GetMapping("/")
     public String index() {
         return "index";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/cadastro")
+    public String cadastro() {
+        return "cadastro";
+    }
+
+    @GetMapping("/sobre")
+    public String sobre() {
+        return "sobre";
+    }
+
+    //Dashboard
 
     @GetMapping("/dashboard")
     public String dashboard() {
@@ -26,19 +43,9 @@ public class ViewController {
         return "pedidos";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/cadastro")
-    public String cadastro() {
-        return "cadastro";
-    }
 
     @GetMapping("/usuarios")
     public String usuarios() {
         return "usuarios";
     }
-
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main_layout}">>
+      layout:decorate="~{layouts/dashboard_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Produtos</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/styledashboard.css">
     <script src="/assets/js/produtos.js" defer></script>
 
 </head>
@@ -46,7 +46,7 @@
 
     <div id="produtos_del">
 
-        <form action="" , id="#produtos_del">
+        <form class="mb-5" action="" , id="#produtos_del">
             <input type="number" class="id_produto_del" name="id_produto_del" id="id_produto_del"
                    placeholder="ID do produto:">
             <button type="submit">Remover</button>

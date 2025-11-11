@@ -2,6 +2,7 @@
    Variáveis de tema
    ========================= */
 :root {
+  --nav-width: 200px;
   --nav-height: 56px;
   --nav-bg: #991936;
   --nav-text: #ffffff;
@@ -63,92 +64,117 @@ hr {
 /* =========================
    Layout / Navbar
    ========================= */
-nav.navbar,
-.navbar {
-  position: fixed;
-  inset: 0 0 auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  z-index: 1000;
-  height: var(--nav-height);
-  padding: 0.5rem 1rem;
-  gap: 1rem;
-  background: var(--nav-bg) !important;
+   .navbar .nav-link:hover,
+   nav a:hover,
+   .navbar .nav-link:focus,
+   nav a:focus {
+     color: var(--nav-hover) !important;
+     outline: none;
+   }
+
+@media (min-width: 992px) {
+  /* torna a navbar uma sidebar fixa à esquerda */
+  nav.navbar,
+  .navbar {
+    position: fixed;
+    inset: 0 auto 0 0; /* top right bottom left -> fixa à esquerda */
+    width: var(--nav-width);
+    height: 100vh;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: var(--nav-bg) !important;
+    z-index: 1000;
+  }
+
+  /* estrutura interna da navbar */
+  nav.navbar .container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  /* brand no topo */
+  .navbar .navbar-brand {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .navbar-brand {
+    color: var(--nav-text) !important;
+  }
+
+  /* itens empilhados verticalmente */
+  .navbar .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 0.5rem;
+  }
+
+  .navbar .nav-item {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .navbar .nav-link {
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    color: var(--nav-text) !important;
+  }
+
+  /* esconde o botão toggler em desktop (não necessário para sidebar) */
+  .navbar-toggler {
+    display: none;
+  }
+
+  /* desloca o conteúdo principal para a direita para não ficar atrás da sidebar */
+  nav.navbar + .container {
+    margin-left: var(--nav-width);
+    padding-top: 1rem;
+  }
+
+  /* evita padding-top global que era usado para navbar horizontal */
+  body {
+    padding-top: 0;
+  }
 }
 
-.navbar .navbar-brand,
-.navbar .nav-link,
-nav a {
-  color: var(--nav-text) !important;
-  font-weight: 400;
-  transition: var(--transition-fast);
-  -webkit-tap-highlight-color: transparent;
-}
+@media (max-width: 991.98px) {
+  nav.navbar,
+  .navbar {
+    position: fixed;
+    inset: 0 0 auto 0; /* fixa no topo */
+    width: 100%;
+    height: var(--nav-height);
+    padding: 0.5rem 1rem;
+    flex-direction: row;
+    align-items: center;
+  }
 
-.navbar .nav-link:hover,
-nav a:hover,
-.navbar .nav-link:focus,
-nav a:focus {
-  color: var(--nav-hover) !important;
-  outline: none;
-}
+  nav.navbar .container {
+    flex-direction: row;
+    align-items: center;
+  }
 
-.navbar .nav-item,
-.nav-list li {
-  margin-left: 1rem;
-  font-size: clamp(0.9rem, 2.2vw, 1rem);
-  font-weight: 400;
-  list-style: none;
-}
+  .navbar .navbar-nav {
+    flex-direction: row;
+  }
 
-.nav-button,
-.btn {
-  transition: var(--transition-fast);
-  color: var(--nav-text) !important;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
+  .navbar-toggler {
+    display: inline-block;
+  }
 
-.nav-button:active,
-.btn:active { transform: translateY(1px); }
-
-.navbar-toggler {
-  border: none;
-  background: transparent;
-  color: var(--nav-text);
+  nav.navbar + .container {
+    margin-left: 0;
+    padding-top: var(--nav-height);
+  }
 }
-
-.navbar-toggler-icon {
-  background-image: none !important;
-  width: 24px;
-  height: 18px;
-  display: inline-block;
-  position: relative;
-}
-.navbar-toggler-icon::before,
-.navbar-toggler-icon::after,
-.navbar-toggler-icon span {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: currentColor;
-  border-radius: 2px;
-}
-.navbar-toggler-icon::before { top: 0; }
-.navbar-toggler-icon span { top: 8px; }
-.navbar-toggler-icon::after  { bottom: 0; }
-
-.navbar-collapse {
-  background: var(--nav-bg);
-  z-index: 1100;
-}
-.navbar-collapse .nav-link,
-.navbar-collapse a { color: var(--nav-text) !important; }
 
 /* =========================
    Componentes: Banner / Hero / Footer
@@ -261,12 +287,12 @@ img.img-fluid, .hero-img img, .navbar-brand img {
    Media queries
    ========================= */
 @media (min-width: 768px) {
-  :root { --nav-height: 94px; }
+  :root { --nav-height: 64px; }
   .banner-principal { padding: 3.5rem 0; }
 }
 
 @media (min-width: 992px) {
-  :root { --nav-height: 92px; }
+  :root { --nav-height: 72px; }
   .banner-principal { padding: 5rem 0; }
   .banner-principal h1 { font-size: clamp(2rem, 4vw, 3rem); }
 }
