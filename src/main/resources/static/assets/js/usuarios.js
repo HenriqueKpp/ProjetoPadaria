@@ -18,14 +18,40 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${usuario.nome}</td>
           <td>${usuario.cpf}</td>
           <td>${usuario.telefone}</td>
+          <td><button data-id="${usuario.id}" class="btn btn-delete">Excluir</button></td>
         `;
 
                 corpoTabela.appendChild(linha);
             });
+            // Adiciona event listeners para os botões de exclusão
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function () {
+                    const usuarioId = this.getAttribute('data-id');
+
+                    if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                        fetch(`http://localhost:8080/usuarios/${usuarioId}`, {
+                            method: 'DELETE',
+                        })
+                            .then(res => {
+                                if (res.status === 204) {
+                                    location.reload(); // Recarrega a página
+                                } else if (res.status === 404) {
+                                    alert('Usuário não encontrado.');
+                                } else {
+                                    alert('Erro ao excluir o usuário.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erro ao excluir usuário:', error);
+                                alert('Ocorreu um erro na requisição.');
+                            });
+                    }
+                });
+            });
         })
         .catch(error => {
             console.error("Erro:", error);
-            corpoTabela.innerHTML = `<tr><td colspan="4">Erro ao carregar usuários</td></tr>`;
+            corpoTabela.innerHTML = `<tr><td colspan="5">Erro ao carregar usuários</td></tr>`;
         });
 });
 

@@ -7,7 +7,7 @@ if (formularioCadastro) {
     const Isenha = formularioCadastro.querySelector(".senha");
     const Itel = formularioCadastro.querySelector(".tel");
 
-    formularioCadastro.addEventListener('submit', function(event){
+    formularioCadastro.addEventListener('submit', function (event) {
         event.preventDefault();
 
         fetch("http://localhost:8080/usuarios", {

@@ -1,11 +1,13 @@
 package br.com.API.projeto.controller;
 
+import br.com.API.projeto.model.Produto;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewController {
-    // Landing Page
+
     @GetMapping("/")
     public String index() {
         return "index";
@@ -35,17 +37,23 @@ public class ViewController {
 
     @GetMapping("/produtos-page") // Usando um caminho diferente para não conflitar com a API
     public String produtos() {
-        return "produtos";
+        return "/produtos/produtos";
     }
 
-    @GetMapping("/pedidos-page") // Usando um caminho diferente para não conflitar com a API
+    @GetMapping("/produtos/criar")
+    public String showCreatePage(Model model) {
+        Produto produto = new Produto();
+        model.addAttribute("produto", produto);
+        return "produtos/criar";
+    }
+
+    @GetMapping("/pedidos-page")
     public String pedidos() {
         return "pedidos";
     }
-
 
     @GetMapping("/usuarios")
     public String usuarios() {
         return "usuarios";
     }
-}
+    }

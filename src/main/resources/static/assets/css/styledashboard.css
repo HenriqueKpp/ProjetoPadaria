@@ -1,305 +1,197 @@
-/* =========================
-   Variáveis de tema
-   ========================= */
+/* css */
 :root {
-  --nav-width: 200px;
-  --nav-height: 56px;
-  --nav-bg: #991936;
-  --nav-text: #ffffff;
-  --nav-hover: #bdbdbd;
-  --btn-bg: #991936;
-  --btn-text: #ffffff;
-  --btn-hover: #6e1126;
-  --transition-fast: color .2s, background .2s, transform .08s;
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-family: var(--font-sans);
-  --base-font-size: 1em;
-  --base-line-height: 1.4;
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
+    --nav-width: 200px;
+    --nav-height: 76px;
+    --nav-bg: #991936;
+    --nav-bg-active: #84132E;
+    --nav-text: #ffffff;
+    --nav-hover: #bdbdbd;
+    --transition-fast: color .2s, background .2s, transform .08s;
 }
-
-/* =========================
-   Reset / Base
-   ========================= */
-html {
-  color: #222;
-  font-size: var(--base-font-size);
-  line-height: var(--base-line-height);
-  font-family: var(--font-family);
-}
-
-*,
-*::before,
-*::after { box-sizing: border-box; }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding-top: var(--nav-height);
-  margin: 0;
-  background: url('../img/background.png') center fixed repeat;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background: url('../img/background.png') center fixed repeat;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-a { text-decoration: none; color: inherit; }
-
-audio, canvas, iframe, img, svg, video { vertical-align: middle; }
-fieldset, textarea { border: 0; margin: 0; padding: 0; }
-textarea { resize: vertical; }
-
-hr {
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
+a {
+    text-decoration: none;
 }
-
-/* selection */
-::-moz-selection { background: #b3d4fc; text-shadow: none; }
-::selection       { background: #b3d4fc; text-shadow: none; }
 
 /* =========================
    Layout / Navbar
    ========================= */
-   .navbar .nav-link:hover,
-   nav a:hover,
-   .navbar .nav-link:focus,
-   nav a:focus {
-     color: var(--nav-hover) !important;
-     outline: none;
-   }
 
-@media (min-width: 992px) {
-  /* torna a navbar uma sidebar fixa à esquerda */
-  nav.navbar,
-  .navbar {
-    position: fixed;
-    inset: 0 auto 0 0; /* top right bottom left -> fixa à esquerda */
-    width: var(--nav-width);
-    height: 100vh;
-    padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
+/* Estilo base para a navbar (mobile-first) */
+.navbar {
     background: var(--nav-bg) !important;
-    z-index: 1000;
-  }
+    padding: 0;
+}
 
-  /* estrutura interna da navbar */
-  nav.navbar .container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
-  }
-
-  /* brand no topo */
-  .navbar .navbar-brand {
+.navbar .container {
     padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+    color: var(--nav-text) !important;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
+}
 
-  .navbar-brand {
-    color: var(--nav-text) !important;
-  }
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
 
-  /* itens empilhados verticalmente */
-  .navbar .navbar-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-top: 0.5rem;
-  }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
-  .navbar .nav-item {
-    margin-left: 0;
+.navbar-collapse {
+    background-color: var(--nav-bg);
     width: 100%;
-  }
-
-  .navbar .nav-link {
-    padding: 0.6rem 0.9rem;
-    border-radius: 6px;
-    color: var(--nav-text) !important;
-  }
-
-  /* esconde o botão toggler em desktop (não necessário para sidebar) */
-  .navbar-toggler {
-    display: none;
-  }
-
-  /* desloca o conteúdo principal para a direita para não ficar atrás da sidebar */
-  nav.navbar + .container {
-    margin-left: var(--nav-width);
-    padding-top: 1rem;
-  }
-
-  /* evita padding-top global que era usado para navbar horizontal */
-  body {
-    padding-top: 0;
-  }
 }
 
-@media (max-width: 991.98px) {
-  nav.navbar,
-  .navbar {
-    position: fixed;
-    inset: 0 0 auto 0; /* fixa no topo */
+.navbar-nav {
     width: 100%;
-    height: var(--nav-height);
-    padding: 0.5rem 1rem;
-    flex-direction: row;
-    align-items: center;
-  }
+}
 
-  nav.navbar .container {
-    flex-direction: row;
-    align-items: center;
-  }
+.nav-item {
+    width: 100%;
+}
 
-  .navbar .navbar-nav {
-    flex-direction: row;
-  }
+.nav-link {
+    color: var(--nav-text) !important;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+}
 
-  .navbar-toggler {
-    display: inline-block;
-  }
+.navbar-nav .nav-link.active {
+    background-color: var(--nav-bg-active) !important;
+}
 
-  nav.navbar + .container {
-    margin-left: 0;
-    padding-top: var(--nav-height);
-  }
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--nav-hover) !important;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Conteúdo principal da página */
+.main-content {
+    padding-top: calc(var(--nav-height) + 1rem);
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* =========================
-   Componentes: Banner / Hero / Footer
+   Desktop (>= 992px) - Barra Lateral
    ========================= */
-.section { padding: 60px 0; }
-
-.banner-principal {
-  width: 100%;
-  min-height: calc(100vh - var(--nav-height));
-  display: flex;
-  align-items: center;
-  padding: 2.5rem 0;
-}
-
-.banner-principal h1 {
-  margin: 0;
-  font-size: clamp(1.4rem, 6vw, 2.75rem);
-  line-height: 1.1;
-  font-weight: 700;
-  color: var(--nav-bg);
-}
-
-.banner-principal h2 {
-  margin: 15px 0 0 0;
-  font-size: clamp(1rem, 3.2vw, 1.5rem);
-  color: #000;
-}
-
-.banner-principal .btn-get-started {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 25px 50px;
-  border-radius: 10px;
-  transition: .5s;
-  color: var(--btn-text);
-  background: var(--btn-bg);
-}
-
-.banner-principal .btn-get-started span {
-  font-family: "Nunito", sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 1px;
-}
-
-/* Footer */
-.footer {
-  background-color: var(--nav-bg) !important;
-  color: var(--nav-text) !important;
-}
-
-/* =========================
-   Grid / Containers / Helpers
-   ========================= */
-.container {
-  max-width: 1140px;
-  width: 100%;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-.5 * var(--bs-gutter-x));
-  margin-left: calc(-.5 * var(--bs-gutter-x));
-}
-
-/* Images */
-img.img-fluid, .hero-img img, .navbar-brand img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-.hero-img { text-align: center; padding-top: 1rem; }
-
-/* Utilities */
-.hidden, [hidden] { display: none !important; }
-
-.visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:focus {
-  clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; white-space: inherit;
-}
-
-.invisible { visibility: hidden; }
-
-.clearfix::before,
-.clearfix::after { content: ""; display: table; }
-.clearfix::after { clear: both; }
-
-/* espaçamento utilitário */
-.u-mr-sm { margin-right: .5rem; }
-.u-ml-md { margin-left: 1rem; }
-
-/* =========================
-   Media queries
-   ========================= */
-@media (min-width: 768px) {
-  :root { --nav-height: 64px; }
-  .banner-principal { padding: 3.5rem 0; }
-}
-
 @media (min-width: 992px) {
-  :root { --nav-height: 72px; }
-  .banner-principal { padding: 5rem 0; }
-  .banner-principal h1 { font-size: clamp(2rem, 4vw, 3rem); }
+    body {
+        padding-left: var(--nav-width);
+    }
+
+    .navbar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: var(--nav-width);
+        height: 100vh;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .navbar .container,
+    .navbar .navbar-collapse,
+    .navbar .navbar-nav {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbar .container {
+        padding: 0;
+        flex-grow: 1;
+        justify-content: space-between; /* Empurra o botão Sair para baixo */
+    }
+
+    .navbar-brand {
+        padding: 1rem;
+        margin-right: 0;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .navbar-collapse {
+        display: flex !important;
+        flex-grow: 1;
+    }
+
+    .navbar-nav {
+        flex-grow: 1;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        border-radius: 4px;
+        margin: 0.1rem 0.5rem;
+        padding: 0.6rem 1rem;
+        width: calc(100% - 1rem); /* Desconta a margem */
+    }
+
+    /* Item de sair no final */
+    .nav-item.mt-auto {
+        margin-top: auto;
+    }
+
+    .main-content {
+        padding-top: 1.5rem;
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
-@media (max-width: 576px) {
-  body { background-attachment: scroll; }
-  .banner-principal { padding: 1.5rem 0; }
-  .navbar .nav-item { margin-left: .75rem; }
-  .hero-img { margin-top: 0.5rem; }
+/* =========================
+   Mobile (< 992px) - Barra Superior
+   ========================= */
+@media (max-width: 991.98px) {
+    .navbar {
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: var(--nav-height);
+        width: 100%;
+    }
+
+    .navbar .container {
+        width: 100%;
+        max-width: none;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .navbar-collapse {
+        position: absolute;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        padding: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-item.mt-auto {
+        margin-top: 0 !important;
+    }
+
+    .main-content {
+        padding-top: calc(var(--nav-height) + 1rem);
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
