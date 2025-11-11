@@ -36,7 +36,6 @@ public class ViewController {
         return "cadastro";
     }
 
-
     @GetMapping("/usuarios")
     public String usuarios() {
         return "usuarios";
