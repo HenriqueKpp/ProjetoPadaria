@@ -1,5 +1,6 @@
 package br.com.API.projeto.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "pedido")
+@Table(name = "Pedido")
 public class Pedido {
 
     @Id
@@ -30,6 +31,7 @@ public class Pedido {
     @Column(name = "data_pedido", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime data_pedido = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<PedidoItem> itens;
 }

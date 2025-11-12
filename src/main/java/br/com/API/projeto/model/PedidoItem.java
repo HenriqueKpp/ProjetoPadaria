@@ -1,8 +1,8 @@
 package br.com.API.projeto.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @Entity
@@ -14,24 +14,21 @@ public class PedidoItem {
     @Column(name = "pedido_item_id")
     private Integer pedido_item_id;
 
-    // Relacionamento com Pedido
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
     @JsonBackReference
     private Pedido pedido;
 
-    // Relacionamento com Produto
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false)
     private Produto produto;
 
-    @Column(name = "quantidade", nullable = false)
+    @Column(nullable = false)
     private Integer quantidade;
 
-    // O preco_unitario e subtotal serão preenchidos pelo MySQL via trigger
-    @Column(name = "preco_unitario", insertable = false, updatable = false)
-    private Float preco_unitario;
+    @Column(name = "preco_unitario")
+    private Double preco_unitario;
 
-    @Column(name = "subtotal", insertable = false, updatable = false)
-    private Float subtotal;
+    @Column(name = "subtotal")
+    private Double subtotal;
 }
