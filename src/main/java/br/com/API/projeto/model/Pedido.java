@@ -16,7 +16,7 @@ public class Pedido {
     @Column(name = "pedido_id")
     private Integer pedido_id;
 
-    @Column(name = "valor_final")
+    @Column(name = "valor")
     private Double valor_final;
 
     @Column(name = "funcionario_id", nullable = false, length = 11)

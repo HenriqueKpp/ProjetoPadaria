@@ -151,8 +151,10 @@ CREATE TABLE Pedido (
     valor DECIMAL(12,2),
     data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     forma_pagamento varchar(255),
-    cpf_cliente INT(11)
+    cpf_cliente INT(11),
+    funcionario_id varchar(11)
 );
+
 
 
 -- PEDIDO_ITEM (ASSOCIATIVA = PRODUTO X PEDIDO)
