@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 📜 Função para carregar pedidos de forma organizada
+    //  Função para carregar pedidos de forma organizada
     async function carregarPedidos() {
         const listaPedidosDiv = document.getElementById("lista-pedidos");
         if (!listaPedidosDiv) {

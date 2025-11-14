@@ -116,72 +116,237 @@ Mais informações sobre a avaliação:
 
 ```sql
 
+DROP DATABASE IF exists FinanceiroPadaria;
 CREATE DATABASE IF NOT EXISTS FinanceiroPadaria;
 USE FinanceiroPadaria;
 
--- Criação das Tabelas
+-- Criação das Tabelas ----------------------------------------------------------------------------------
 
 CREATE TABLE usuario (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL,
-    telefone VARCHAR(25) NOT NULL
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       nome VARCHAR(255) NOT NULL,
+                       cpf VARCHAR(11) UNIQUE NOT NULL,
+                       senha VARCHAR(255) NOT NULL,
+                       telefone VARCHAR(25) NOT NULL
 );
 
 CREATE TABLE grupo_usuarios (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome_grupo VARCHAR(100) NOT NULL,           -- 'gerente','vendedor'
-    nivel_permissao INT NOT NULL DEFAULT 1      -- 1,2,3
+                              id INT PRIMARY KEY AUTO_INCREMENT,
+                              nome_grupo VARCHAR(100) NOT NULL,           -- 'gerente','vendedor'
+                              nivel_permissao INT NOT NULL DEFAULT 1      -- 1,2,3 
 );
 
 -- PRODUTO
 CREATE TABLE Produto (
-    id INT PRIMARY KEY AUTO_INCREMENT, 
-    nome VARCHAR(150) NOT NULL,
-    preco_custo DECIMAL(10,2),
-    preco_venda DECIMAL(10,2),
-    qntd_estoque INT
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       nome VARCHAR(150) NOT NULL,
+                       preco_custo DECIMAL(10,2),
+                       preco_venda DECIMAL(10,2),
+                       qntd_estoque INT
 );
 
 
 -- PEDIDO
 CREATE TABLE Pedido (
-    pedido_id INT PRIMARY KEY AUTO_INCREMENT,
-    valor DECIMAL(12,2),
-    data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
-    forma_pagamento varchar(255),
-    cpf_cliente INT(11)
+                      pedido_id INT PRIMARY KEY auto_increment,
+                      valor_final DECIMAL(12,2),
+                      funcionario_id CHAR(11),
+                      data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
+                      forma_pagamento VARCHAR(255),
+                      cpf_cliente INT(11)
 );
-
 
 -- PEDIDO_ITEM (ASSOCIATIVA = PRODUTO X PEDIDO)
 CREATE TABLE Pedido_Item (
-    pedido_item_id INT PRIMARY KEY AUTO_INCREMENT,
-    pedido_id INT NOT NULL,
-    produto_id INT NOT NULL,
-    quantidade INT NOT NULL,
-    preco_unitario DECIMAL(10,2),
-    subtotal DECIMAL(12,2),
-    CONSTRAINT fk_item_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
-    CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(id)
+                           pedido_item_id INT PRIMARY KEY AUTO_INCREMENT,
+                           pedido_id INT NOT NULL,
+                           produto_id INT NOT NULL,
+                           quantidade INT NOT NULL,
+                           preco_unitario DECIMAL(10,2),
+                           subtotal DECIMAL(12,2),
+                           CONSTRAINT fk_item_pedido FOREIGN KEY (pedido_id) REFERENCES Pedido(pedido_id) ON DELETE CASCADE,
+                           CONSTRAINT fk_item_produto FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
 
 
-INSERT INTO Produto (nome, preco_custo, preco_venda, qntd_estoque)
-VALUES
-('Pão Francês', 0.20, 0.80, 500),
-('Bolo de Chocolate', 10.00, 25.00, 15),
-('Coxinha', 1.50, 4.00, 80),
-('Suco Natural 300ml', 2.00, 6.00, 30),
-('Torta de Frango', 8.00, 20.00, 10);
+-- INSERTS ----------------------------------------------------------------------------------------------
+
+INSERT INTO usuario (nome, cpf, senha, telefone) VALUES
+                                                   ('Henrique Dantas', '12345678901', '1234', '(11) 98877-1122'),
+                                                   ('Maria Souza', '98765432100', 'abcd', '(21) 97766-3344'),
+                                                   ('Carlos Lima', '45678912399', 'senha123', '(31) 91234-5678'),
+                                                   ('Fernanda Alves', '32165498700', 'admin', '(41) 99888-7766'),
+                                                   ('João Pedro', '15975348620', 'teste', '(81) 96543-2109');
+
+INSERT INTO produto (nome, preco_custo, preco_venda, qntd_estoque) VALUES
+                                                                     ('Pão Francês', 0.30, 0.60, 500),
+                                                                     ('Café em Pó 500g', 8.50, 12.00, 100),
+                                                                     ('Leite Integral 1L', 3.20, 4.50, 200),
+                                                                     ('Bolo de Chocolate', 10.00, 18.00, 25),
+                                                                     ('Queijo Mussarela 1kg', 22.00, 35.00, 50),
+                                                                     ('Presunto 1kg', 18.00, 30.00, 40),
+                                                                     ('Coca-Cola 2L', 6.00, 9.50, 60),
+                                                                     ('Suco de Laranja 1L', 4.50, 7.00, 80),
+                                                                     ('Pão de Queijo 1kg', 12.00, 20.00, 30),
+                                                                     ('Manteiga 500g', 9.00, 14.00, 70);
 
 
-INSERT INTO usuario (nome, cpf, senha, telefone)
-VALUES
-('Maria Silva', '12345678901', 'senha123', '(11) 98888-1111'),
-('João Souza', '98765432100', 'senha456', '(11) 97777-2222'),
-('Ana Lima', '55566677788', 'senha789', '(11) 96666-3333');
+
+-- TRIGERRS --------------------------------------------------------------------------------------
+
+DELIMITER $$ -- CALCULA OS SUBTOTAIS E PEGA OS VALORES DOS PRODUTOS PARA COLOCAR NO "preco_unitario"
+CREATE TRIGGER trg_pedido_item_bi
+  BEFORE INSERT ON Pedido_Item
+  FOR EACH ROW
+BEGIN
+  DECLARE preco DECIMAL(10,2);
+
+    -- busca o preço de venda do produto
+  SELECT preco_venda INTO preco
+  FROM Produto
+  WHERE id = NEW.produto_id;
+  -- atribui o preço ao campo preco_unitario
+  SET NEW.preco_unitario = preco;
+    -- calcula o subtotal (quantidade * preço)
+    SET NEW.subtotal = NEW.quantidade * preco;
+    
+END$$
+  DELIMITER ;
+
+
+
+DELIMITER $$ -- CALCULA A SOMA TOTAL DE UM PEDIDO
+  CREATE TRIGGER trg_pedido_item_ai
+    AFTER INSERT ON Pedido_Item
+    FOR EACH ROW
+  BEGIN
+    UPDATE Pedido
+    SET valor_final = (
+      SELECT SUM(subtotal)
+      FROM Pedido_Item
+      WHERE pedido_id = NEW.pedido_id
+    )
+    WHERE pedido_id = NEW.pedido_id;
+    END$$
+    DELIMITER ;
+
+
+-- CHAMA A FUNCTION DE GERAR ID DE PEDIDO
+DELIMITER $$
+    CREATE TRIGGER trg_gerar_id_pedido
+      BEFORE INSERT ON Pedido
+      FOR EACH ROW
+    BEGIN
+      SET NEW.pedido_id = gerar_codigo_pedido();
+END$$
+      DELIMITER ;
+
+
+-- CHAMA A FUNÇÃO DE GERAR ID DE USUARIO
+DELIMITER $$
+      CREATE TRIGGER trg_usuario_id
+        BEFORE INSERT ON usuario
+        FOR EACH ROW
+      BEGIN
+        SET NEW.id = gerar_id_usuario();
+END$$
+        DELIMITER ;
+
+
+
+-- INDICES -----------------------------------------------------------------------------------------------
+
+-- CASO QUEIRA FAZER UMA PESQUISA PELO SQL, ESSES SÃO OS PRINCIPAIS QUE VÃO AJUDAR NAS BUSCAS (OS MAIS UTEIS)
+
+-- acelera JOIN e cálculo do total
+        CREATE INDEX idx_item_pedido_id ON Pedido_Item (pedido_id);
+--  consultas por produto
+        CREATE INDEX idx_item_produto_id ON Pedido_Item (produto_id);
+--  para listar pedidos de um cliente específico
+        CREATE INDEX idx_pedido_cpf_cliente ON Pedido (cpf_cliente);
+--  para buscas de produtos por nome (usado em vendas)
+        CREATE INDEX idx_produto_nome ON Produto (nome);
+
+
+        -- EXEMPLOS DE BUSCA QUE USA OS INDEX CRIADOS
+
+--  COMPRAS DE UM CLIENTE X
+        SELECT p.pedido_id, p.data_pedido, pr.nome, i.quantidade, i.subtotal
+        FROM Pedido p
+               JOIN Pedido_Item i ON p.pedido_id = i.pedido_id
+               JOIN Produto pr ON i.produto_id = pr.id
+        WHERE p.cpf_cliente = '123';
+
+-- VENDAS DE UM PRODUTO X (PELO ID)
+        SELECT p.pedido_id, p.data_pedido, pr.nome, i.quantidade, i.subtotal
+        FROM Pedido p
+               JOIN Pedido_Item i ON p.pedido_id = i.pedido_id
+               JOIN Produto pr ON i.produto_id = pr.id
+        WHERE pr.id = '4';
+
+
+-- VENDAS DE UM PRODUTO X (PELO NOME)
+        SELECT p.pedido_id, p.data_pedido, pr.nome, i.quantidade, i.subtotal
+        FROM Pedido p
+               JOIN Pedido_Item i ON p.pedido_id = i.pedido_id
+               JOIN Produto pr ON i.produto_id = pr.id
+        WHERE pr.nome = 'Pão Francês';
+
+
+-- VIEWS -------------------------------------------------------------------------------------------
+
+        -- MOSTRAR O VALOR TOTAL DE VENDAS O DASHBOARD
+        CREATE VIEW total_vendas_view AS
+        SELECT 1 AS dummy_id,
+               COALESCE(SUM(valor_final),0) AS total_vendido
+        FROM Pedido;
+
+        SELECT * FROM total_vendas_view;
+
+
+
+
+
+        -- FUNCTIONS----------------------------------------------------------------------------------------
+
+
+-- É CHAMADA NO TRIGGER, GERA O ID DO PEDIDO
+        DELIMITER $$
+        CREATE FUNCTION gerar_codigo_pedido()
+          RETURNS INT
+          DETERMINISTIC
+        BEGIN
+    DECLARE codigo INT;
+    SET codigo = FLOOR(1 + (RAND() * 999));  -- Gera número entre 1 e 999
+        RETURN codigo;
+        END$$
+        DELIMITER ;
+
+
+-- OUTRA FUNCTION DE GERAR ID DE USUARIO + TESTE PRA VER SE JA EXISTE
+DELIMITER $$
+        CREATE FUNCTION gerar_id_usuario()
+          RETURNS INT
+          DETERMINISTIC
+        BEGIN
+    DECLARE novo_id INT;
+
+    tentativa: LOOP
+        SET novo_id = FLOOR(1 + (RAND() * 999));
+
+        -- verifica se já existe
+        IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = novo_id) THEN   --  Procura na tabela usuario
+																		-- Uma linha cujo id seja igual ao número novo_id
+																		-- Se encontrar, retorna o número 1
+																		-- Se não encontrar, não retorna nada
+            LEAVE tentativa; -- ID válido encontrado
+      END IF;
+    END LOOP;
+
+    RETURN novo_id;
+    END$$
+    DELIMITER ;
+
 
 
 
