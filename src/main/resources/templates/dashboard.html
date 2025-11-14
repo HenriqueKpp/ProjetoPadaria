@@ -6,8 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/assets/css/styledashboard.css">
-    <script src="/assets/js/total-vendas.js" defer></script>
-
+    <script src="/assets/js/dashboard.js" defer></script>
 </head>
 
 <body>
@@ -15,15 +14,17 @@
 
 <div class="container" layout:fragment="content">
     <!-- CODIGO PRA APARECER O NOME DO USUARIO -->
-    <h2 id="boasVindas"></h2>
-    <script>
-        const nome = localStorage.getItem("nomeUsuario");
-        if (nome) {
-            document.querySelector("#boasVindas").textContent = `Bem-vindo, ${nome}! `;
-        }
-    </script>
-</div>
+    <h1 class="mt-5" id="boasVindas">Carregando…</h1>
 
+    <!-- CARD TOTAL VENDAS -->
+    <div id="total-vendas-card" style="margin-top:20px;">
+        <h4>Total vendido hoje:</h4>
+        <h3 id="totalVendas">R$0,00</h3>
+    </div>
+
+
+
+</div>
 
 </body>
 

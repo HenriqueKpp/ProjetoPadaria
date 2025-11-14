@@ -158,15 +158,65 @@ a {
     }
 }
 
+/* Boas-vindas */
+#boasVindas {
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #000000;
+    text-align: left;
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Card moderno */
+#total-vendas-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-left: 6px solid #4CAF50;
+    transition: transform 0.15s ease;
+    animation: cardFade 0.7s ease-out;
+}
+
+#total-vendas-card:hover {
+    transform: translateY(-4px);
+}
+
+#total-vendas-card h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+#total-vendas-card h3 {
+    margin-top: 8px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
 /* =========================
    Mobile (< 992px) - Barra Superior
    ========================= */
+@media (max-width: 600px) {
+    #total-vendas-card {
+        max-width: 100%;
+    }
+
+    #boasVindas {
+        font-size: 22px;
+    }
+}
+
 @media (max-width: 991.98px) {
     .navbar {
         position: fixed;
         inset: 0 0 auto 0;
         height: var(--nav-height);
         width: 100%;
+        z-index: 1030;
     }
 
     .navbar .container {
@@ -190,7 +240,7 @@ a {
     }
 
     .main-content {
-        padding-top: calc(var(--nav-height) + 1rem);
+        padding-top: 0;
         padding-left: 1rem;
         padding-right: 1rem;
     }
