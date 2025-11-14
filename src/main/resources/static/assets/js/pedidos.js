@@ -6,14 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // ➕ Adicionar produto dinamicamente
     btnAdicionar.addEventListener("click", () => {
         const novoProduto = document.createElement("div");
-        novoProduto.classList.add("produto-item");
+        novoProduto.classList.add("produto-item", "row", "g-3", "align-items-end", "smooth-subcard");
         novoProduto.innerHTML = `
-            <label>ID do Produto:</label>
-            <input type="number" class="produto-id" required>
-            <label>Quantidade:</label>
-            <input type="number" class="produto-qtd" min="1" required>
-            <button type="button" class="remover-produto">Remover</button>
-        `;
+        <div class="col-md-5">
+            <label class="form-label">ID do Produto:</label>
+            <input type="number" class="form-control produto-id" required>
+        </div>
+
+        <div class="col-md-5">
+            <label class="form-label">Quantidade:</label>
+            <input type="number" class="form-control produto-qtd" min="1" required>
+        </div>
+
+        <div class="col-md-2 text-end">
+            <button type="button" class="btn btn-danger remover-produto">Remover</button>
+        </div>
+    `;
         container.appendChild(novoProduto);
 
         novoProduto.querySelector(".remover-produto").addEventListener("click", () => {

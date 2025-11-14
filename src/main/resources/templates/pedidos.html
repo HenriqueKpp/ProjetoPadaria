@@ -6,57 +6,87 @@
     <link rel="stylesheet" href="/assets/css/styledashboard.css">
     <title>Pedidos</title>
     <script src="/assets/js/pedidos.js" defer></script>
-
 </head>
+
 <body>
+<div layout:fragment="content" class="py-4">
+    <div class="container">
 
+        <h1 class="section-title text-center mb-5">Registrar Pedido</h1>
 
+        <!-- Registrar pedido -->
+        <div class="card smooth-card p-5 card-pedidos">
 
-<div layout:fragment="content">
+            <form id="form-pedido" class="form-card smooth-card" onsubmit="return false;">
 
-    <h1>Pedidos Registrados</h1>
-    <div id="lista-pedidos">
-        <p>Carregando pedidos...</p>
-    </div>
-    <hr>
+                <!-- Dados principais -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">CPF do Funcionário:</label>
+                        <input type="text" id="cpfFuncionario" maxlength="11" class="form-control" required>
+                    </div>
 
+                    <div class="col-md-6">
+                        <label class="form-label">CPF do Cliente:</label>
+                        <input type="text" id="cpfCliente" maxlength="11" class="form-control">
+                    </div>
+                </div>
 
-    <h1>Registrar Pedido</h1>
+                <!-- Pagamento -->
+                <div class="mt-4">
+                    <label class="form-label">Forma de Pagamento:</label>
+                    <select id="formaPagamento" class="form-select" required>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Pix">Pix</option>
+                    </select>
+                </div>
 
-    <form id="form-pedido" onsubmit="return false;"> <!-- evita reload da página -->
-        <label>CPF do Funcionário:</label><br>
-        <input type="text" id="cpfFuncionario" maxlength="11" required><br><br> <!-- id corrigido -->
+                <!-- Produtos -->
+                <h3 class="section-title mt-5">Produtos</h3>
 
-        <label>CPF do Cliente:</label><br>
-        <input type="text" id="cpfCliente" maxlength="11"><br><br> <!-- id corrigido -->
+                <div id="produtosContainer">
+                    <div class="produto-item row g-3 align-items-end smooth-subcard">
 
-        <label>Forma de Pagamento:</label><br>
-        <select id="formaPagamento" required> <!-- id corrigido -->
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de Crédito">Cartão de Crédito</option>
-            <option value="Cartão de Débito">Cartão de Débito</option>
-            <option value="Pix">Pix</option>
-        </select>
-        <br><br>
+                        <div class="col-md-5">
+                            <label class="form-label">ID do Produto:</label>
+                            <input type="number" class="form-control produto-id" required>
+                        </div>
 
-        <h1>Produtos</h1>
-        <div id="produtosContainer">
-            <div class="produto-item">
-                <label>ID do Produto:</label>
-                <input type="number" class="produto-id" required>
-                <label>Quantidade:</label>
-                <input type="number" class="produto-qtd" min="1" required>
-                <button type="button" class="remover-produto">Remover</button>
-            </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Quantidade:</label>
+                            <input type="number" class="form-control produto-qtd" min="1" required>
+                        </div>
+
+                        <div class="col-md-2 text-end">
+                            <button type="button" class="btn btn-danger remover-produto">Remover</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button type="button" id="btnAdicionarProduto" class="btn btn-outline-primary w-100 mt-3">
+                    + Adicionar outro produto
+                </button>
+
+                <!-- Finalizar -->
+                <button type="button" id="finalizarPedido" class="btn btn-success w-100 mt-4 py-2">
+                    Finalizar Pedido
+                </button>
+
+            </form>
         </div>
 
-        <button type="button" id="btnAdicionarProduto">+ Adicionar outro produto</button>
-        <br><br>
+        <!-- Título pedidos -->
 
-        <button type="button" id="finalizarPedido">Finalizar Pedido</button> <!-- id corrigido -->
-    </form>
+        <h1 class="section-title text-center my-5">Pedidos Registrados</h1>
 
+        <div id="lista-pedidos" class="card smooth-card">
+            <p>Carregando pedidos...</p>
+        </div>
+
+    </div>
 </div>
-
 </body>
 </html>

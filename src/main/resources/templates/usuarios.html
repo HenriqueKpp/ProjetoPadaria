@@ -11,21 +11,23 @@
 </head>
 <body>
 
-<div layout:fragment="content">
-    <h2 class="mt-5">Usuários cadastrados</h2>
+<div layout:fragment="content" class="container">
+    <h2 class="section-title text-center mt-5">Usuários cadastrados</h2>
 
-    <table class="table table-striped align-middle text-center mt-5" >
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody id="tabelaUsuarios"></tbody>
-    </table>
+    <div class="mt-5 card table-card shadow-sm">
+        <table class="table table-striped text-center mb-0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id="tabelaUsuarios"></tbody>
+        </table>
+    </div>
 </div>
 
 </body>

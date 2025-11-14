@@ -153,7 +153,7 @@ CREATE TABLE Pedido (
                       funcionario_id CHAR(11),
                       data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
                       forma_pagamento VARCHAR(255),
-                      cpf_cliente INT(11)
+                      cpf_cliente VARCHAR(11)
 );
 
 -- PEDIDO_ITEM (ASSOCIATIVA = PRODUTO X PEDIDO)
@@ -171,12 +171,6 @@ CREATE TABLE Pedido_Item (
 
 -- INSERTS ----------------------------------------------------------------------------------------------
 
-INSERT INTO usuario (nome, cpf, senha, telefone) VALUES
-                                                   ('Henrique Dantas', '12345678901', '1234', '(11) 98877-1122'),
-                                                   ('Maria Souza', '98765432100', 'abcd', '(21) 97766-3344'),
-                                                   ('Carlos Lima', '45678912399', 'senha123', '(31) 91234-5678'),
-                                                   ('Fernanda Alves', '32165498700', 'admin', '(41) 99888-7766'),
-                                                   ('João Pedro', '15975348620', 'teste', '(81) 96543-2109');
 
 INSERT INTO produto (nome, preco_custo, preco_venda, qntd_estoque) VALUES
                                                                      ('Pão Francês', 0.30, 0.60, 500),
@@ -303,7 +297,14 @@ END$$
 
         SELECT * FROM total_vendas_view;
 
-
+        -- MOSTRAR AS VENDAS POR DIA NO DASHBOARD
+        CREATE VIEW vendas_por_dia AS
+        SELECT DATE(data_pedido) AS dia,
+                COALESCE(SUM(valor_final), 0) AS total_vendido
+                FROM Pedido
+                GROUP BY DATE(data_pedido)
+                ORDER BY dia DESC;
+        SELECT * FROM vendas_por_dia;
 
 
 

@@ -12,23 +12,25 @@
 <body>
 
 <div layout:fragment="content">
-    <h2 class="mt-5">Produtos cadastrados</h2>
+    <h2 class="section-title text-center mt-5">Produtos cadastrados</h2>
 
-    <table class="table table-striped align-middle text-center mt-5" >
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Preço de venda</th>
-            <th>Preço de custo</th>
-            <th>Estoque</th>
-            <th>Ação</th>
-        </tr>
-        </thead>
-        <tbody id="tabelaProdutos"></tbody>
-    </table>
+    <div class="mt-5 card table-card shadow-sm">
+        <table class="table table-striped text-center mb-0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço de venda</th>
+                <th>Preço de custo</th>
+                <th>Estoque</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody id="tabelaProdutos"></tbody>
+        </table>
+    </div>
 
-    <a class="btn btn-primary mt-5" href="/produtos/criar" role="button">Adicionar</a>
+    <a class="btn btn-primary mt-4" href="/produtos/criar" role="button">Adicionar</a>
 </div>
 
 </body>

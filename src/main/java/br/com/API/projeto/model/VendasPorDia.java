@@ -1,19 +1,20 @@
 package br.com.API.projeto.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Immutable;
+
+import java.time.LocalDate;
 
 @Data
 @Entity
+@Immutable // Indica que a entidade é imutável (uma visão de banco de dados)
 @Table(name = "vendas_por_dia")
 public class VendasPorDia {
 
     @Id
     @Column(name = "dia")
-    private String dia; // Pode ser String ou LocalDate
+    private LocalDate dia; // Alterado de String para LocalDate
 
     @Column(name = "total_vendido")
     private Double totalVendido;

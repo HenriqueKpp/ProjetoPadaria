@@ -12,20 +12,65 @@
 <body>
 
 
-<div class="container" layout:fragment="content">
-    <!-- CODIGO PRA APARECER O NOME DO USUARIO -->
-    <h1 class="mt-5" id="boasVindas">Carregando…</h1>
+<div layout:fragment="content" class="container">
+    <!-- Boas-vindas -->
+    <h2 class="section-title text-center mt-4 fw-semibold fade-in" id="boasVindas">Carregando…</h2>
 
-    <!-- CARD TOTAL VENDAS -->
-    <div id="total-vendas-card" style="margin-top:20px;">
-        <h4>Total vendido hoje:</h4>
-        <h3 id="totalVendas">R$0,00</h3>
+    <!-- Cards de estatísticas -->
+    <div class="row g-4 mt-2">
+
+        <!-- Card total vendas -->
+        <div class="col-md-4">
+            <div class="stat-card shadow-sm">
+                <div class="stat-header">
+                    <i class="bi bi-cash-stack"></i>
+                    <h4>Total vendido hoje</h4>
+                </div>
+                <h2 id="totalVendas" class="stat-value">R$ 0,00</h2>
+            </div>
+        </div>
+
     </div>
 
+    <!-- Filtro -->
+    <div class="card filter-box shadow-sm">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Data de Início:</label>
+                    <input type="date" id="dataInicio" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Data de Fim:</label>
+                    <input type="date" id="dataFim" class="form-control">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button id="filtrarBtn" class="btn btn-primary me-2">Filtrar</button>
+                    <button id="limparFiltroBtn" class="btn btn-danger">Limpar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Tabela -->
+    <h3 class="section-title text-center">Vendas por Dia</h3>
 
+    <div class="card table-card shadow-sm">
+        <table class="table table-striped text-center mb-0">
+            <thead>
+            <tr>
+                <th>Dia</th>
+                <th>Total Vendido (R$)</th>
+            </tr>
+            </thead>
+            <tbody id="tabelaVendasDia">
+            <tr>
+                <td colspan="2">Carregando...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
 </body>
 
 </html>

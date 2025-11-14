@@ -23,11 +23,6 @@ public class ViewController {
         return "cadastro";
     }
 
-    @GetMapping("/sobre")
-    public String sobre() {
-        return "sobre";
-    }
-
     //Dashboard
 
     @GetMapping("/dashboard")
