@@ -56,4 +56,16 @@ public class ViewController {
     public String usuarios() {
         return "usuarios";
     }
+
+    @GetMapping("/total-vendas")
+    public String totalVendasPage() {
+        return "total-vendas";
     }
+
+    @GetMapping("/vendas-por-dia")
+    public String vendasPorDia() {
+        return "vendas-por-dia";
+    }
+
+
+}
