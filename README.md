@@ -354,3 +354,29 @@ DELIMITER $$
 
 
 ```
+
+## 6. Implementação do Banco NoSQL MongoDB, Logs
+
+### 6.1 Escolha e justificativa
+Foi adotado o **MongoDB** como banco **NoSQL** exclusivamente para **registro de logs** da aplicação (requisições HTTP e eventos de negócio).
+Justificativas: **schema flexível**, **baixa fricção de escrita**, **TTL nativo** para expurgo automático e **separação de responsabilidades** (MySQL para o domínio; Mongo para observabilidade).
+
+### 6.2 Modelagem e collections
+- **Database**: `padaria`
+- **Collection**: `logs`
+- **Documento** (`LogEntry`): `level` (INFO/WARN/ERROR), `category` (http/negocio), `message`, `meta` (Map), `timestamp`, `expiresAt`.
+- **Índice TTL**: em `expiresAt` com `expireAfterSeconds: 0` (remoção automática quando a data é alcançada).
+
+### 6.3 Integração no backend (Spring Boot)
+- `LogEntry` (`@Document("logs")`) com `@Indexed(expireAfterSeconds = 0)` em `expiresAt`.
+- `LogRepository` (Spring Data Mongo) e `LogService` (`info/warn/error`) — retenções: INFO 7d, WARN 30d, ERROR 90d (ajustável).
+- `HttpLogFilter` (extends `OncePerRequestFilter`) grava **toda** requisição HTTP (método, rota, status, duração).
+> O uso do Mongo **não altera** o MySQL/JPA do domínio.
+
+### 6.4 Configuração
+**`pom.xml`**:
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
