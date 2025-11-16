@@ -1,11 +1,11 @@
 const formularioCadastro = document.querySelector("#cadastro");
 
-// CADASTRO
 if (formularioCadastro) {
     const Inome = formularioCadastro.querySelector(".nome");
     const Icpf = formularioCadastro.querySelector(".cpf");
     const Isenha = formularioCadastro.querySelector(".senha");
     const Itel = formularioCadastro.querySelector(".tel");
+    const IGrupo = formularioCadastro.querySelector("#grupo_id");
 
     formularioCadastro.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -20,30 +20,27 @@ if (formularioCadastro) {
                 nome: Inome.value,
                 cpf: Icpf.value,
                 senha: Isenha.value,
-                telefone: Itel.value
+                telefone: Itel.value,
+                grupo_id: Number(IGrupo.value)
             })
         })
             .then(res => {
                 if (res.status === 201) {
                     alert("Usuário cadastrado com sucesso!");
-                    // Salva o nome do usuário no localStorage
-                    localStorage.setItem("nomeUsuario", nomeUsuario);
-                    // Redireciona para o dashboard
+                    localStorage.setItem("nomeUsuario", Inome.value);
                     window.location.href = "/dashboard";
                 } else {
                     res.json().then(data => {
                         alert("Erro ao cadastrar usuário: " + (data.message || res.status));
-                    }).catch(() => {
-                        alert("Erro ao cadastrar usuário! Status: " + res.status);
                     });
                 }
             })
-            .catch(err => alert(err + " - Erro ao cadastrar usuário!" + res.status));
+            .catch(err => alert("Erro ao cadastrar usuário: " + err));
 
-        // limpar apenas os campos do formulário de cadastro
         Inome.value = "";
         Icpf.value = "";
         Isenha.value = "";
         Itel.value = "";
+        IGrupo.value = "1"; // volta ao padrão
     });
 }

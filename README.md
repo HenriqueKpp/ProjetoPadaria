@@ -122,19 +122,31 @@ USE FinanceiroPadaria;
 
 -- Criação das Tabelas ----------------------------------------------------------------------------------
 
-CREATE TABLE usuario (
-                       id INT PRIMARY KEY AUTO_INCREMENT,
-                       nome VARCHAR(255) NOT NULL,
-                       cpf VARCHAR(11) UNIQUE NOT NULL,
-                       senha VARCHAR(255) NOT NULL,
-                       telefone VARCHAR(25) NOT NULL
-);
 
 CREATE TABLE grupo_usuarios (
                               id INT PRIMARY KEY AUTO_INCREMENT,
                               nome_grupo VARCHAR(100) NOT NULL,           -- 'gerente','vendedor'
                               nivel_permissao INT NOT NULL DEFAULT 1      -- 1,2,3 
 );
+INSERT INTO grupo_usuarios (nome_grupo, nivel_permissao) VALUES
+                                                           ('Vendedor', 1),
+                                                           ('Gerente', 2);
+
+
+
+
+
+CREATE TABLE usuario (
+                       id INT PRIMARY KEY AUTO_INCREMENT,
+                       nome VARCHAR(255) NOT NULL,
+                       cpf VARCHAR(11) UNIQUE NOT NULL,
+                       senha VARCHAR(255) NOT NULL,
+                       telefone VARCHAR(25) NOT NULL,
+                       grupo_id INT NOT NULL,
+                       CONSTRAINT fk_usuario_grupo FOREIGN KEY (grupo_id) REFERENCES grupo_usuarios(id)
+);
+
+
 
 -- PRODUTO
 CREATE TABLE Produto (
@@ -149,12 +161,14 @@ CREATE TABLE Produto (
 -- PEDIDO
 CREATE TABLE Pedido (
                       pedido_id INT PRIMARY KEY auto_increment,
-                      valor_final DECIMAL(12,2),
+                      valor_final DECIMAL(12,2) DEFAULT 0,
                       funcionario_id CHAR(11),
                       data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
                       forma_pagamento VARCHAR(255),
-                      cpf_cliente VARCHAR(11)
+                      cpf_cliente INT(11)
 );
+
+
 
 -- PEDIDO_ITEM (ASSOCIATIVA = PRODUTO X PEDIDO)
 CREATE TABLE Pedido_Item (
@@ -188,35 +202,36 @@ INSERT INTO produto (nome, preco_custo, preco_venda, qntd_estoque) VALUES
 
 -- TRIGERRS --------------------------------------------------------------------------------------
 
-DELIMITER $$ -- CALCULA OS SUBTOTAIS E PEGA OS VALORES DOS PRODUTOS PARA COLOCAR NO "preco_unitario"
+-- CALCULA OS SUBTOTAIS E PEGA OS VALORES DOS PRODUTOS PARA COLOCAR NO "preco_unitario"
+DROP TRIGGER IF EXISTS trg_pedido_item_bi;
+DELIMITER $$
 CREATE TRIGGER trg_pedido_item_bi
   BEFORE INSERT ON Pedido_Item
   FOR EACH ROW
 BEGIN
   DECLARE preco DECIMAL(10,2);
 
-    -- busca o preço de venda do produto
   SELECT preco_venda INTO preco
   FROM Produto
   WHERE id = NEW.produto_id;
-  -- atribui o preço ao campo preco_unitario
+
   SET NEW.preco_unitario = preco;
-    -- calcula o subtotal (quantidade * preço)
     SET NEW.subtotal = NEW.quantidade * preco;
-    
 END$$
   DELIMITER ;
 
 
 
-DELIMITER $$ -- CALCULA A SOMA TOTAL DE UM PEDIDO
+-- CALCULA A SOMA TOTAL DE UM PEDIDO
+  DROP TRIGGER IF EXISTS trg_pedido_item_ai;
+  DELIMITER $$
   CREATE TRIGGER trg_pedido_item_ai
     AFTER INSERT ON Pedido_Item
     FOR EACH ROW
   BEGIN
     UPDATE Pedido
     SET valor_final = (
-      SELECT SUM(subtotal)
+      SELECT COALESCE(SUM(subtotal),0)
       FROM Pedido_Item
       WHERE pedido_id = NEW.pedido_id
     )
@@ -225,27 +240,28 @@ DELIMITER $$ -- CALCULA A SOMA TOTAL DE UM PEDIDO
     DELIMITER ;
 
 
--- CHAMA A FUNCTION DE GERAR ID DE PEDIDO
+-- CHAMA A FUNÇÃO DE GERAR ID DE USUARIO
 DELIMITER $$
-    CREATE TRIGGER trg_gerar_id_pedido
-      BEFORE INSERT ON Pedido
+    CREATE TRIGGER trg_usuario_id
+      BEFORE INSERT ON usuario
       FOR EACH ROW
     BEGIN
-      SET NEW.pedido_id = gerar_codigo_pedido();
+      SET NEW.id = gerar_id_usuario();
 END$$
       DELIMITER ;
 
 
--- CHAMA A FUNÇÃO DE GERAR ID DE USUARIO
-DELIMITER $$
-      CREATE TRIGGER trg_usuario_id
-        BEFORE INSERT ON usuario
+
+-- CHAMA A procedure DE DIMINUIR ESTIQUE APOS VENDA
+      DROP TRIGGER IF EXISTS trg_reduzir_estoque_item;
+      DELIMITER $$
+      CREATE TRIGGER trg_reduzir_estoque_item
+        AFTER INSERT ON Pedido_Item
         FOR EACH ROW
       BEGIN
-        SET NEW.id = gerar_id_usuario();
-END$$
+        CALL reduzir_estoque(NEW.produto_id, NEW.quantidade);
+        END$$
         DELIMITER ;
-
 
 
 -- INDICES -----------------------------------------------------------------------------------------------
@@ -294,8 +310,9 @@ END$$
         SELECT 1 AS dummy_id,
                COALESCE(SUM(valor_final),0) AS total_vendido
         FROM Pedido;
+-- SELECT * FROM total_vendas_view;
 
-        SELECT * FROM total_vendas_view;
+
 
         -- MOSTRAR AS VENDAS POR DIA NO DASHBOARD
         CREATE VIEW vendas_por_dia AS
@@ -304,28 +321,14 @@ END$$
                 FROM Pedido
                 GROUP BY DATE(data_pedido)
                 ORDER BY dia DESC;
-        SELECT * FROM vendas_por_dia;
+        -- SELECT * FROM vendas_por_dia;
 
 
-
-        -- FUNCTIONS----------------------------------------------------------------------------------------
-
-
--- É CHAMADA NO TRIGGER, GERA O ID DO PEDIDO
-        DELIMITER $$
-        CREATE FUNCTION gerar_codigo_pedido()
-          RETURNS INT
-          DETERMINISTIC
-        BEGIN
-    DECLARE codigo INT;
-    SET codigo = FLOOR(1 + (RAND() * 999));  -- Gera número entre 1 e 999
-        RETURN codigo;
-        END$$
-        DELIMITER ;
+-- FUNCTIONS----------------------------------------------------------------------------------------
 
 
 -- OUTRA FUNCTION DE GERAR ID DE USUARIO + TESTE PRA VER SE JA EXISTE
-DELIMITER $$
+        DELIMITER $$
         CREATE FUNCTION gerar_id_usuario()
           RETURNS INT
           DETERMINISTIC
@@ -347,6 +350,21 @@ DELIMITER $$
     RETURN novo_id;
     END$$
     DELIMITER ;
+
+
+
+-- PROCEDURE -------------------------------------------------------------------------------------
+
+-- PROCEDURAL DE REMOVER DO ESTOQUE APOS FAZER UM PEDIDO
+DELIMITER $$
+    CREATE PROCEDURE reduzir_estoque(IN prod_id INT, IN qtd INT)
+    BEGIN
+    UPDATE Produto
+    SET qntd_estoque = qntd_estoque - qtd
+    WHERE id = prod_id;
+    END$$
+    DELIMITER ;
+
 
 
 

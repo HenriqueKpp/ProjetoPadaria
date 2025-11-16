@@ -38,5 +38,8 @@ public class Usuario {
     @Column(name = "telefone", length = 25, nullable = false)
     private String telefone;
 
+    @Column(name = "grupo_id", length = 25, nullable = false)
+    private int grupo_id;
+
 
 }
