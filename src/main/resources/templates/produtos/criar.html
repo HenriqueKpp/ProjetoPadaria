@@ -3,7 +3,7 @@
       layout:decorate="~{layouts/dashboard_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Criar Produto</title>
+    <title>Dashboard - Criar Produto</title>
     <link rel="stylesheet" href="/assets/css/styledashboard.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto rounded border p-4 m-4 shadow bg-white">
-                <h2 class="text-center mb-5">Novo Produto</h2>
+                <h2 class="text-center mb-5">Criar Produto</h2>
                 <form method="post" th:action="@{/produtos/criar}" th:object="${produto}">
                     <div class="row mb-3">
                         <label class="col-sm-4 col-form-label">Nome</label>

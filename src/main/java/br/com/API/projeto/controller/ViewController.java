@@ -42,7 +42,7 @@ public class ViewController {
         return "produtos/criar";
     }
 
-    @GetMapping("/pedidos-page")
+    @GetMapping("/pedidos-page") // Usando um caminho diferente para não conflitar com a API
     public String pedidos() {
         return "pedidos";
     }
