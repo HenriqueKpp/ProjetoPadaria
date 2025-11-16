@@ -221,7 +221,7 @@ nav a:focus {
 .banner-principal h2 {
     margin: 15px 0 0 0;
     font-size: clamp(1rem, 3.2vw, 1.5rem);
-    color: #000;
+    color: #1C0000;
 }
 
 .banner-principal .btn-get-started {
@@ -232,6 +232,10 @@ nav a:focus {
     transition: .5s;
     color: var(--btn-text);
     background: var(--btn-bg);
+}
+
+.btn-get-started:hover {
+    background: var(--btn-hover);
 }
 
 .banner-principal .btn-get-started span {

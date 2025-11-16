@@ -60,10 +60,10 @@ a {
     color: var(--nav-text) !important;
     gap: 0.5rem;
     font-size: clamp(1.2rem, 4vw, 1.5rem);
-    font-weight: 400;
     display: flex;
     align-items: center;
     font-family: 'Nunito', sans-serif;
+    font-weight: 400;
 }
 
 .navbar-toggler {

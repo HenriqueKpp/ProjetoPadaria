@@ -73,9 +73,19 @@ section.h-100 {
     font-size: 1.2rem;
 }
 
+.titulo-padaria {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+}
+
+.texto-padaria {
+    font-size: 1.1rem;
+}
+
 /* Pequenos ajustes responsivos */
 @media (max-width: 768px) {
-    .card .card-body { padding: 1.25rem; }
+    .card .card-body { padding: 2rem; }
     .form-control { font-size: .98rem; }
+    .card-texto { padding: 2rem;}
     .card { margin-left: .5rem; margin-right: .5rem; }
 }
