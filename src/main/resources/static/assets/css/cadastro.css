@@ -59,6 +59,20 @@ section.h-100 {
     background-color: var(--btn-bg);
 }
 
+/* Estiliza o ícone de olho para mostrar/ocultar senha */
+.form-outline {
+    position: relative;
+}
+
+#togglePassword {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 1.2rem;
+}
+
 /* Pequenos ajustes responsivos */
 @media (max-width: 768px) {
     .card .card-body { padding: 1.25rem; }

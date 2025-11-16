@@ -6,6 +6,18 @@ if (formularioCadastro) {
     const Isenha = formularioCadastro.querySelector(".senha");
     const Itel = formularioCadastro.querySelector(".tel");
     const IGrupo = formularioCadastro.querySelector("#grupo_id");
+    const togglePassword = formularioCadastro.querySelector("#togglePassword");
+
+    if (togglePassword) {
+        togglePassword.addEventListener('click', function () {
+            // Alterna o tipo do input de senha
+            const type = Isenha.getAttribute('type') === 'password' ? 'text' : 'password';
+            Isenha.setAttribute('type', type);
+            // Alterna a classe do ícone
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    }
 
     formularioCadastro.addEventListener('submit', function (event) {
         event.preventDefault();

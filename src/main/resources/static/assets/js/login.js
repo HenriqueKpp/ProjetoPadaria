@@ -10,6 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const Icpf = formularioLogin.querySelector(".cpf");
         const Isenha = formularioLogin.querySelector(".senha");
         const Ilembrar = formularioLogin.querySelector("#lembrar");
+        const togglePassword = formularioLogin.querySelector("#togglePassword");
+
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function () {
+                // Alterna o tipo do input de senha
+                const type = Isenha.getAttribute('type') === 'password' ? 'text' : 'password';
+                Isenha.setAttribute('type', type);
+                // Alterna a classe do ícone
+                this.classList.toggle('bi-eye');
+                this.classList.toggle('bi-eye-slash');
+            });
+        }
 
         formularioLogin.addEventListener('submit', function(event) {
             event.preventDefault();
