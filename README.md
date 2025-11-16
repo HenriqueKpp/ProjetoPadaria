@@ -198,6 +198,10 @@ INSERT INTO produto (nome, preco_custo, preco_venda, qntd_estoque) VALUES
                                                                      ('Pão de Queijo 1kg', 12.00, 20.00, 30),
                                                                      ('Manteiga 500g', 9.00, 14.00, 70);
 
+-- USUARIO ADMIN PADRÃO (LOGIN: 0000 / SENHA: admin)
+INSERT INTO usuario (nome, cpf, senha, telefone, grupo_id) VALUES
+                                                               ('Administrador', '0000', '$2a$10$19m1Pr8LlIC2ibyZpCy7tOpWKhtvHxkjloyQo1Yx0rdE3Slb1rPAK', '00000000000', '2');
+
 
 
 -- TRIGERRS --------------------------------------------------------------------------------------

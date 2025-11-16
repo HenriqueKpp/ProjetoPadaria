@@ -28,7 +28,6 @@ if (formularioCadastro) {
                 if (res.status === 201) {
                     alert("Usuário cadastrado com sucesso!");
                     localStorage.setItem("nomeUsuario", Inome.value);
-                    window.location.href = "/dashboard";
                 } else {
                     res.json().then(data => {
                         alert("Erro ao cadastrar usuário: " + (data.message || res.status));
