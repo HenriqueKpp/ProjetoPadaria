@@ -1,3 +1,28 @@
+// MOSTRAR O VALOR TOTAL SOMENTE PARA GERENTES
+document.addEventListener("DOMContentLoaded", function () {
+
+    const grupoId = Number(localStorage.getItem("grupoId")); // 1 = Funcionário, 2 = Gerente
+
+    const cardTotalVendas = document.getElementById("cardTotalVendas");
+
+    // Usuário é funcionário? (grupo 1)
+    if (grupoId === 1) {
+        if (cardTotalVendas) {
+            cardTotalVendas.style.display = "none";
+        }
+    }
+
+    // Usuário é gerente? (grupo 2)
+    else if (grupoId === 2) {
+        if (cardTotalVendas) {
+            cardTotalVendas.style.display = "block";
+        }
+    }
+
+});
+
+
+
 // MOSTRAR NOME DO USUÁRIO NA DASHBOARD
 const nome = localStorage.getItem("nomeUsuario");
 if (nome) {

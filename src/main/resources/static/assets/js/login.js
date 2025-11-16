@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(usuario => {
                     // Salva o nome do usuário para exibir no dashboard
                     localStorage.setItem("nomeUsuario", usuario.nome);
+                    localStorage.setItem("grupoId", usuario.grupo_id);
 
                     // Verifica se "Lembrar de mim" está marcado
                     if (Ilembrar.checked) {

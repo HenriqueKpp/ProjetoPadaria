@@ -92,6 +92,20 @@
         }
     });
 </script>
+
+<script> //SCRRIPT ESCONDER CAMPOS
+document.addEventListener("DOMContentLoaded", () => {
+    const grupoId = Number(localStorage.getItem("grupoId"));
+
+    // Se for vendedor (grupo 1), ocultar menus
+    if (grupoId === 1) {
+        document.querySelector('a[href="/usuarios"]').style.display = "none";
+        document.querySelector('a[href="/cadastro"]').style.display = "none";
+    }
+});
+
+</script>
+
 </body>
 
 </html>
