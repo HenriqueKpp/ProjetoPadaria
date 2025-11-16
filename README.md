@@ -115,7 +115,6 @@ Mais informações sobre a avaliação:
 ### Scripts
 
 ```sql
-
 DROP DATABASE IF exists FinanceiroPadaria;
 CREATE DATABASE IF NOT EXISTS FinanceiroPadaria;
 USE FinanceiroPadaria;
@@ -165,7 +164,7 @@ CREATE TABLE Pedido (
                       funcionario_id CHAR(11),
                       data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
                       forma_pagamento VARCHAR(255),
-                      cpf_cliente INT(11)
+                      cpf_cliente VARCHAR(11)
 );
 
 
@@ -200,7 +199,7 @@ INSERT INTO produto (nome, preco_custo, preco_venda, qntd_estoque) VALUES
 
 -- USUARIO ADMIN PADRÃO (LOGIN: 0000 / SENHA: admin)
 INSERT INTO usuario (nome, cpf, senha, telefone, grupo_id) VALUES
-                                                               ('Administrador', '0000', '$2a$10$19m1Pr8LlIC2ibyZpCy7tOpWKhtvHxkjloyQo1Yx0rdE3Slb1rPAK', '00000000000', '2');
+  ('Administrador', '0000', '$2a$10$19m1Pr8LlIC2ibyZpCy7tOpWKhtvHxkjloyQo1Yx0rdE3Slb1rPAK', '00000000000', '2');
 
 
 
@@ -368,13 +367,6 @@ DELIMITER $$
     WHERE id = prod_id;
     END$$
     DELIMITER ;
-
-
-
-
-
-
-
 ```
 
 ## 6. Implementação do Banco NoSQL MongoDB, Logs
